@@ -1,0 +1,50 @@
+{
+  "name": "back",
+  "version": "0.0.2",
+  "description": "Back to the Island",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "postinstall": "mkdirp dist && napa KilledByAPixel/ZzFX#v1.05:zzfx",
+    "lint": "standard rollup.config.js 'rollup-plugin-make-levels/**/*.js' 'src/**/*.js'",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "zip": "cd dist && zip ../back.zip index.html && advzip -z4 -i50 ../back.zip"
+  },
+  "keywords": [
+    "js13k",
+    "js13kgames",
+    "kontra"
+  ],
+  "author": "Andrew J. Baker <andrew_j_baker2@hotmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "fast-random": "^2.0.4",
+    "joypad.js": "^1.2.9",
+    "kontra": "ajbkr/kontra#feature/invalidate-layer-canvas",
+    "virtual-stick": "^1.0.6"
+  },
+  "devDependencies": {
+    "autotile": "^1.1.0",
+    "cave-automata-2d": "^0.3.1",
+    "husky": "^3.0.8",
+    "mkdirp": "^0.5.1",
+    "napa": "^3.0.0",
+    "ndarray": "^1.0.18",
+    "ndarray-fill": "^1.0.2",
+    "rollup": "^1.23.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-html-bundle": "0.0.3",
+    "rollup-plugin-livereload": "^1.0.4",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-serve": "^1.0.1",
+    "rollup-plugin-terser": "^5.1.2",
+    "standard": "^14.3.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  }
+}
