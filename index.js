@@ -145,11 +145,21 @@ function setup() {
   frameRate(60);
   background(0);
   island = readMatrix();
+//Test eske away
+  itemOnbord.push({
+    id: 0,
+    name: "NO",
+    itemType: "NO",
+    image:"NO",
+    itemPlace: {x:9,y:9},
+  });
+  itemInVeiw();
+
 }
 function draw() {
   isKeyDown();
   drawView();
-  //drawItems();
+  drawItems();
   drawPlayer();
 }
 
@@ -183,11 +193,12 @@ function drawView(){
       // console.log("x: " + i + " y: " + j);
       if(i < 0 || j < 0 || i > cooMaxX || j > cooMaxY){
         drawTile(0,drawXat,drawYat);
-
       } else if (island[i][j].id == 1){
         drawTile(1,drawXat,drawYat);
+        island[i][j].placeCanvas = {x:drawXat,y:drawYat};
       } else if (island[i][j].id == 0){
         drawTile(0,drawXat,drawYat);
+        island[i][j].placeCanvas = {x:drawXat,y:drawYat};
       }
       drawXat += tilesize;
     }
@@ -201,11 +212,13 @@ function drawView(){
 }
 function drawItems(){
   //square(x, y, size);
+
   for (i = 0; i < itemOnView.length; i++){
     var tempX = itemOnView[i].itemPlace.x;
     var tempY = itemOnView[i].itemPlace.y;
-    
-
+    var tempPlace = island[tempX][tempY].placeCanvas;
+    //console.log("temp place: " + tempPlace.x);
+    drawItem(itemOnView[i],tempPlace.x, tempPlace.y);
   }
 }
 function drawTile(id, x, y){
@@ -222,6 +235,10 @@ function drawTile(id, x, y){
     console.log("There was aonce a blog but no more in draw tile");
   }
   square(x, y, tilesize);
+}
+function drawItem(itemToDraw,x,y){
+  fill('#6BCDEB');
+  square(x+10, y+10, 30);
 }
 //ELIPSES
 function drawElipse(){
@@ -276,10 +293,11 @@ function isNextMap(x,y){//When plye hits the side change paramiters for view
 
 }
 function itemInVeiw(){//Calculets what item shuld be drawn
+  itemOnView = [];
   for (i = 0; i < itemOnbord.length; i++){
-    if(itemOnbord[i].x > mapDrawCoo.x && itemOnbord[i].x < mapDrawCoo.x+viewSize){
-      if(itemOnbord[i].y > mapDrawCoo.y && itemOnbord[i].y < mapDrawCoo.y+viewSize){
-        itemOnView.puch(itemOnbord[i]);
+    if(itemOnbord[i].itemPlace.x > mapDrawCoo.x && itemOnbord[i].itemPlace.x < mapDrawCoo.x+viewSize){
+      if(itemOnbord[i].itemPlace.y > mapDrawCoo.y && itemOnbord[i].itemPlace.y < mapDrawCoo.y+viewSize){
+        itemOnView.push(itemOnbord[i]);
       }
     }
   }
