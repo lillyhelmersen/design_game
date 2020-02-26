@@ -116,7 +116,7 @@ function drawPlayer(){
 }
 function drawView(){
   //console.log("Draw viwa");
-  var water = island[0][0];//A water tile 0,0
+  //var water = island[0][0];//A water tile 0,0
   var startCord = player.coordinate;
   var viewChuncCoo = {x:3,y:3};
   var drawXat = 0;
@@ -125,13 +125,17 @@ function drawView(){
   for(i = viewChuncCoo.y; i < viewChuncCoo.y+viewSize; i++){
     drawXat = 0;
     for (j = viewChuncCoo.x; j < viewChuncCoo.x+viewSize; j++){
-      console.log("x: " + i + " y: " + j);
+      //console.log("x: " + i + " y: " + j);
       if(i < 0 || j < 0 || i > cooMaxX || j > cooMaxY){
         drawTile(0,drawXat,drawYat);
+        
       } else if (island[i][j].id == 1){
         drawTile(1,drawXat,drawYat);
+        island[i][j].placeCanvas = {x:drawXat,y:drawYat,};
+
       } else if (island[i][j].id == 0){
         drawTile(0,drawXat,drawYat);
+        island[i][j].placeCanvas = {x:drawXat,y:drawYat,};
       }
       drawXat += tilesize;
     }
