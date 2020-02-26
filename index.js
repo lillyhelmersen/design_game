@@ -1,20 +1,70 @@
-
 /*Downloaded from https://www.codeseek.co/Jastor11/p5js-character-moving-on-screen-dpEQqJ */
+
+//Game
+var posibelItems = [];//1 of alle the posible items
+//Game bord
+var iland = [];//contains tiles
+var itemOnbord = []; //all the items that are placed in the world
+
+//Cordinat in array
+var point = {
+  x: -1,
+  y: -1,
+};
+//Plase on canvas
+var place = {
+  x: -1,
+  y: -1,
+};
+
+//Item
+var item = {
+  name: "NO",
+  itemType: "NO",
+  image:"NO",
+  itemPlace: place,
+};
+
+//tile
+var tile = {
+  id: 0,
+  tileType: "NO",
+  image: "NO",
+  placeCanvas: place,
+  cord: point,
+  tileItem: item,
+  //eddg: false,
+};
+
+
+//Player
+var player = {
+  name: "NO",
+  image: "NO",
+  inventory: [],//List of items payer has
+};
+
+
+//Elipse
 var xpos = 100;
 var ypos = 100;
-
 var targetX;
 var targetY;
-
 var speed = 50;
-var easing = 0.05;
+var easing = 1;//0.05;
 
 function setup() {
-  createCanvas(400, 200);
+  createCanvas(400, 400);
   background(0);
 }
 function draw() {
   background(100);
+  drawElipse();
+
+}
+
+//ELIPSES
+function drawElipse(){
   stroke(0);
   ellipseMode(CENTER);
   ellipse(xpos, ypos, 25, 25);
@@ -32,6 +82,8 @@ function draw() {
   text("xpos = " + xpos, 25, 25);
   text("ypos = " + ypos, 25, 55);
 }
+
+//KESY
 function keyPressed(){
   if (keyCode == DOWN_ARROW){
     targetY = ypos + speed;
