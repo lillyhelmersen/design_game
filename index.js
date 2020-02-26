@@ -6,7 +6,7 @@ var tilesize = 50;
 var viewSize = 6;
 //Game bord
 
-var island = [[]];//contains tiles
+var island = new Array();//contains tiles
 var itemOnbord = []; //all the items that are placed in the world
 var islandMatrix = [
   "00000000000000000000000000000000000000000000000000",
@@ -101,7 +101,7 @@ function setup() {
   createCanvas(400, 400);
   background(0);
   island = readMatrix();
-  drawView();
+  // drawView();
 }
 
 function draw() {
@@ -189,57 +189,111 @@ function keyPressed(){
 }
 //Read island model//
 function readMatrix(){
-  var tempIland = [[]];
-  for ( i = 0; i < islandMatrix.length; i++) {
+  var rowLength = islandMatrix[0].length;
+   
+  var tempIland =  new Array(islandMatrix.length);
+console.log(row);
+  for (var i = 0; i < islandMatrix.length; i++) { 
+    tempIland[i] = new Array(rowLength); 
+  } 
 
-  // console.log(islandMatrix.length);
-            //obtain each row from 0 to final length of array from matrix array
-      var row = islandMatrix[i];
- // console.log(row.length);
-      //go through each character within that row
-            for ( j = 0; j < row.length; j++) {
-                //parse each character to do something depending on the value
-              switch (row.charAt(j)) {
+for ( i = 0; i < islandMatrix.length; i++) {
 
-                case '0':
-                  tempIland[i][j] = {
-                      id: 0,
-                      tileType: "NO",
-                      image: "NO",
-                      placeCanvas: place,
-                      cord: {
-                        x: i,
-                        y: j,
-                      },
-                      tileItem: "NO",
-                    };
-                    // console.log(tile);
-                    //island.push(tile);
-                  //create water tile
-                        break;
-                case '1':
-                  tempIland[i][j] = {
-                      id: 1,
-                      tileType: "NO",
-                      image: "NO",
-                      placeCanvas: place,
-                      cord: {
-                        x: i,
-                        y: j,
-                      },
-                      tileItem: "NO",
-                    };
-                    //create land tile
-                    // island.push(tile);
-                        break;
-                // case '2':
-                      //create other tile
-                        // break;
-                }
+   for ( j = 0; j < rowLength; j++) {
+                 //parse each character to do something depending on the value
+       var row = islandMatrix[i]; 
+       console.log(row.charAt(j));         
+               switch (row.charAt(j)) {
 
-            }
+                 case '0':
+                   tempIland[i][j] = {
+                       id: 0,
+                       tileType: "NO",
+                       image: "NO",
+                       placeCanvas: place,
+                       cord: {
+                         x: i,
+                         y: j,
+                       },
+                       tileItem: "NO",
+                     };
+                     // console.log(tile);
+                     //island.push(tile);
+                   //create water tile
+                         break;
+                 case '1':
+                   tempIland[i][j] = {
+                       id: 1,
+                       tileType: "NO",
+                       image: "NO",
+                       placeCanvas: place,
+                       cord: {
+                         x: i,
+                         y: j,
+                       },
+                       tileItem: "NO",
+                     };
+                     //create land tile
+                     // island.push(tile);
+                         break;
+                 // case '2':
+                       //create other tile
+                         // break;
+                 }
 
-    }
-    console.log(island);
-    return tempIland;
+             }
+
+}
+ //  for ( i = 0; i < islandMatrix.length; i++) {
+
+ //  // console.log(islandMatrix.length);
+ //            //obtain each row from 0 to final length of array from matrix array
+ //      tempIland[i] = [];
+ // // console.log(row.length);
+ //      //go through each character within that row
+ //            for ( j = 0; j < row.length; j++) {
+ //                //parse each character to do something depending on the value
+ //              switch (row.charAt(j)) {
+
+ //                case '0':
+ //                  tempIland[i][j] = {
+ //                      id: 0,
+ //                      tileType: "NO",
+ //                      image: "NO",
+ //                      placeCanvas: place,
+ //                      cord: {
+ //                        x: i,
+ //                        y: j,
+ //                      },
+ //                      tileItem: "NO",
+ //                    };
+ //                    // console.log(tile);
+ //                    //island.push(tile);
+ //                  //create water tile
+ //                        break;
+ //                case '1':
+ //                  tempIland[i][j] = {
+ //                      id: 1,
+ //                      tileType: "NO",
+ //                      image: "NO",
+ //                      placeCanvas: place,
+ //                      cord: {
+ //                        x: i,
+ //                        y: j,
+ //                      },
+ //                      tileItem: "NO",
+ //                    };
+ //                    //create land tile
+ //                    // island.push(tile);
+ //                        break;
+ //                // case '2':
+ //                      //create other tile
+ //                        // break;
+ //                }
+
+ //            }
+
+      // }
+    console.log(tempIland);
+    // return tempIland;
 }
