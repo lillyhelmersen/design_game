@@ -2,14 +2,15 @@
 //30/50
 wi = 700;
 hi = 700;
-//Game
-var possibleItems = []; //1 of all the possible items
 var tilesize = 70;
 var viewSize = 10;
-//Game bord
-
-var island = new Array();//contains tiles
+var mapDrawCoo = {x:0,y:0,};
+//item
+var possibleItems = []; //1 of all the possible items
 var itemOnbord = []; //all the items that are placed in the world
+var itemOnView = [];
+//Game bord
+var island = new Array();//contains tiles
 var islandMatrix = [
   "00000000000000000000000000000000000000000000000000",
   "00000000000000000000000000000000000011111100000000",
@@ -119,16 +120,33 @@ function setup() {
   background(0);
   island = readMatrix();
 }
+function draw() {
+  isKeyDown();
+  drawView();
+  drawPlayer();
+}
 
 function drawPlayer(){
   var startCord = player.coordinate;
+  stroke(0);
+  ellipseMode(CENTER);
+  ellipse(xpos, ypos, 25, 25);
+  isNextMap(xpos,ypos);
 
+  var dx = targetX -xpos;
+  if (abs(dx) > 1) {
+    xpos = xpos + dx * easing;
+  }
+  var dy = targetY - ypos;
+  if (abs(dy) > 1) {
+    ypos = ypos + dy * easing;
+  }
 }
 function drawView(){
   //console.log("Draw viwa");
   //var water = island[0][0];//A water tile 0,0
   var startCord = player.coordinate;
-  var viewChuncCoo = {x:3,y:3};
+  var viewChuncCoo = mapDrawCoo;
   var drawXat = 0;
   var drawYat = 0;//tilesize
 
@@ -138,7 +156,7 @@ function drawView(){
       //console.log("x: " + i + " y: " + j);
       if(i < 0 || j < 0 || i > cooMaxX || j > cooMaxY){
         drawTile(0,drawXat,drawYat);
-        
+
       } else if (island[i][j].id == 1){
         drawTile(1,drawXat,drawYat);
         island[i][j].placeCanvas = {x:drawXat,y:drawYat,};
@@ -192,6 +210,48 @@ function drawElipse(){
   //text("ypos = " + ypos, 25, 55);
 }
 
+//veiw shidft \
+function isNextMap(x,y){//When plye hits the side change paramiters for view
+  var xPlus = mapDrawCoo.x+viewSize;
+  var xMinus = mapDrawCoo.x-viewSize;
+  var yPlus = mapDrawCoo.y+viewSize;
+  var yMinus = mapDrawCoo.y-viewSize;
+
+  if(x > wi){
+    //next map right
+    xpos = 0;
+    mapDrawCoo.x = mapDrawCoo.x+viewSize;
+    itemInVeiw();
+    //console.log("I hitt the riht\n mapDrawCoo.x: " + xPlus);
+  } else if(x < 0){
+    xpos = wi;
+    mapDrawCoo.x = mapDrawCoo.x-viewSize;
+    itemInVeiw();
+    //next map left
+  } else if(y > hi){
+    ypos = 0;
+    mapDrawCoo.y = mapDrawCoo.y+viewSize;
+    itemInVeiw();
+    //next map down
+  } else if(y < 0){
+    ypos = hi;
+    mapDrawCoo.y = mapDrawCoo.y-viewSize;
+    itemInVeiw();
+    //next map up
+  }
+
+
+}
+function itemInVeiw(){//Calculets what item shuld be drawn
+  for (i = 0; i < itemOnbord.length; i++){
+    if(itemOnbord[i].x > mapDrawCoo.x && itemOnbord[i].x < mapDrawCoo.x+viewSize){
+      if(itemOnbord[i].y > mapDrawCoo.y && itemOnbord[i].y < mapDrawCoo.y+viewSize){
+        itemOnView.puch(itemOnbord[i]);
+      }
+    }
+  }
+  //console.log(itemOnView);
+}
 //KESY
 function isKeyDown() {
   if (keyIsDown(DOWN_ARROW)) {
@@ -210,16 +270,6 @@ function isKeyDown() {
 
 }
 
-
-
-
-
-
-function draw() {
-  isKeyDown();
-  drawView();
-  drawElipse();
-}
 // function keyPressed(){
 //   drawView();
 //   if (keyCode == DOWN_ARROW){
