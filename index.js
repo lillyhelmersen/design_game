@@ -71,9 +71,12 @@ function draw() {
   drawElipse();
 
 }
+function drawPlayer(){
+  var playerCoo = player.coordinate;
 
+}
 function drawView(){
-  var water;//A water tile 0,0
+  var water = island[0][0];//A water tile 0,0
   var playerCoo = player.coordinate;
   var drawXat = 0;
   var drawYat = 0;//tilesize
