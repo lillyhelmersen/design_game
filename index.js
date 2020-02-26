@@ -3,7 +3,7 @@
 //Game
 var posibelItems = [];//1 of alle the posible items
 var tilesize = 50;
-var viewSize = 6;
+var viewSize = 3;
 //Game bord
 
 var island = new Array();//contains tiles
@@ -40,6 +40,8 @@ var islandMatrix = [
   "00000000000001111111111111111111111111111000000000",
   "00000000000000000000000000000000000000010000000000"
 ];
+var cooMaxX = islandMatrix[0].length;
+var cooMaxY = islandMatrix.length;
 
 //Cordinat in array
 var point = {
@@ -77,8 +79,8 @@ var player = {
   name: "NO",
   image: "NO",
   coordinate: {
-    x: 20,
-    y: 20,
+    x: 8,
+    y: 8,
   },
   placeCanvas: place,
   inventory: [],//List of items payer has
@@ -101,11 +103,11 @@ function setup() {
   createCanvas(400, 400);
   background(0);
   island = readMatrix();
-  // drawView();
+  drawView();
 }
 
 function draw() {
-  background(100);
+
   drawElipse();
 }
 function drawPlayer(){
@@ -113,15 +115,17 @@ function drawPlayer(){
 
 }
 function drawView(){
-  console.log("Draw viwa");
+  //console.log("Draw viwa");
   var water = island[0][0];//A water tile 0,0
   var playerCoo = player.coordinate;
   var drawXat = 0;
   var drawYat = 0;//tilesize
 
   for(i = playerCoo.y-viewSize; i < playerCoo.y+viewSize; i++){
-    for (j = playerCoo.x-viewSize; j < playerCoo.x+viewSize; i++){
-      if(i < 0 || j < 0){
+    drawXat = 0;
+    for (j = playerCoo.x-viewSize; j < playerCoo.x+viewSize; j++){
+      console.log("x: " + i + " y: " + j);
+      if(i < 0 || j < 0 || i > cooMaxX || j > cooMaxY){
         drawTile(0,drawXat,drawYat);
       } else if (island[i][j].id == 1){
         drawTile(1,drawXat,drawYat);
@@ -139,6 +143,7 @@ function drawView(){
   */
 }
 function drawTile(id, x, y){
+  //console.log("Draw tile id: " + id + " at x: " +x + " y: " +y);
   switch(id){
     case 0:
     fill(0);
@@ -174,6 +179,7 @@ function drawElipse(){
 
 //KESY
 function keyPressed(){
+  drawView();
   if (keyCode == DOWN_ARROW){
     targetY = ypos + speed;
   }
@@ -242,6 +248,6 @@ function readMatrix(){
                    }
     }
   }
-    console.log(tempIland);
+    //console.log(tempIland);
     return tempIland;
 }
