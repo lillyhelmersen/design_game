@@ -117,13 +117,13 @@ function drawView(){
   //console.log("Draw viwa");
   var water = island[0][0];//A water tile 0,0
   var startCord = player.coordinate;
-  var viewChuncCoo = {x:0,y:0};
+  var viewChuncCoo = {x:20,y:20};
   var drawXat = 0;
   var drawYat = 0;//tilesize
 
   for(i = viewChuncCoo.y; i < viewChuncCoo.y+viewSize; i++){
     drawXat = 0;
-    for (j = startCord.x-viewSize; j < startCord.x+viewSize; j++){
+    for (j = viewChuncCoo.x; j < viewChuncCoo.x+viewSize; j++){
       console.log("x: " + i + " y: " + j);
       if(i < 0 || j < 0 || i > cooMaxX || j > cooMaxY){
         drawTile(0,drawXat,drawYat);
