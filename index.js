@@ -100,7 +100,8 @@ function prelode() {
 }
 
 function setup() {
-  createCanvas(400, 400);
+  var board = createCanvas(400, 400);
+   board.parent("board-container");
   frameRate(60);
   background(0);
   island = readMatrix();
