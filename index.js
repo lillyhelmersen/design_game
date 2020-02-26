@@ -144,6 +144,7 @@ function setup() {
    board.parent("board-container");
   frameRate(60);
   background(0);
+  noStroke();
   island = readMatrix();
 //Test eske away
   itemOnbord.push({
@@ -165,7 +166,8 @@ function draw() {
 
 function drawPlayer(){
   var startCord = player.coordinate;
-  stroke(0);
+  noStroke();
+  fill('#A42B2A');
   ellipseMode(CENTER);
   ellipse(xpos, ypos, 25, 25);
   isNextMap(xpos,ypos);
@@ -179,7 +181,7 @@ function drawPlayer(){
     ypos = ypos + dy * easing;
   }
 }
-function drawView(){
+function drawView(){//Draws tiles on the canwas and asigns them cordinats
   //console.log("Draw viwa");
   var water = island[0][0];//A water tile 0,0
   var startCord = player.coordinate;
@@ -225,10 +227,10 @@ function drawTile(id, x, y){
   //console.log("Draw tile id: " + id + " at x: " +x + " y: " +y);
   switch(id){
     case 0:
-    fill(0);
+    fill('#048ABF');
     break;
   case 1:
-    fill(200);
+    fill('#84D991');
     break;
   default:
     // code block
@@ -237,13 +239,14 @@ function drawTile(id, x, y){
   square(x, y, tilesize);
 }
 function drawItem(itemToDraw,x,y){
-  fill('#6BCDEB');
-  square(x+10, y+10, 30);
+  fill('#BA7035');
+  square(x+20, y+20, 30);
 }
-//ELIPSES
+/*/ELIPSES
 function drawElipse(){
   stroke(0);
   ellipseMode(CENTER);
+
   ellipse(xpos, ypos, 25, 25);
 
   var dx = targetX -xpos;
@@ -258,7 +261,7 @@ function drawElipse(){
   //fill(255);
   //text("xpos = " + xpos, 25, 25);
   //text("ypos = " + ypos, 25, 55);
-}
+}//*/
 
 //veiw shidft \
 function isNextMap(x,y){//When plye hits the side change paramiters for view
