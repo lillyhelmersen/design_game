@@ -19,6 +19,7 @@ var place = {
 
 //Item
 var item = {
+  id: 0,
   name: "NO",
   itemType: "NO",
   image:"NO",
@@ -30,12 +31,11 @@ var tile = {
   id: 0,
   tileType: "NO",
   image: "NO",
+  cordnat: point,
   placeCanvas: place,
-  cord: point,
-  tileItem: item,
+  //tileItem: item,
   //eddg: false,
 };
-
 
 //Player
 var player = {
@@ -51,12 +51,13 @@ var ypos = 100;
 var targetX;
 var targetY;
 var speed = 50;
-var easing = 1;//0.05;
+var easing = 0.05;
 
 function setup() {
   createCanvas(400, 400);
   background(0);
 }
+
 function draw() {
   background(100);
   drawElipse();
@@ -78,9 +79,9 @@ function drawElipse(){
     ypos = ypos + dy * easing;
   }
   // display xpos variable
-  fill(255);
-  text("xpos = " + xpos, 25, 25);
-  text("ypos = " + ypos, 25, 55);
+  //fill(255);
+  //text("xpos = " + xpos, 25, 25);
+  //text("ypos = " + ypos, 25, 55);
 }
 
 //KESY
