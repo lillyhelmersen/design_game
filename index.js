@@ -3,6 +3,24 @@
 wi = 700;
 hi = 700;
 //Game
+
+var diamond = {
+    id: 7,
+    name: "diamond",
+    itemType: "NO",
+    image:"img/diamond.svg",
+    itemPlace: {
+        x: 36,
+        y: 5,
+    },
+  };
+
+
+function getDiamond() {
+    return diamond;
+};
+
+
 var possibleItems = []; //1 of all the possible items
 var tilesize = 70;
 var viewSize = 10;
@@ -96,9 +114,15 @@ var player = {
     x: wi/2,
     y: hi/2,
   },
-  inventory: [],//List of items payer has
+  inventory: [getDiamond()],//List of items payer has
 };
+console.log(player.inventory)
+console.log(player.inventory[0].image)
+var inventoryItem = document.createElement("img");
+inventoryItem.setAttribute("src", player.inventory[0].image);
+console.log(inventoryItem)
 
+document.getElementById("items-list").appendChild(inventoryItem);
 
 //Elipse
 var xpos = 100;
@@ -126,7 +150,7 @@ function drawPlayer(){
 }
 function drawView(){
   //console.log("Draw viwa");
-  //var water = island[0][0];//A water tile 0,0
+  var water = island[0][0];//A water tile 0,0
   var startCord = player.coordinate;
   var viewChuncCoo = {x:3,y:3};
   var drawXat = 0;
@@ -135,17 +159,13 @@ function drawView(){
   for(i = viewChuncCoo.y; i < viewChuncCoo.y+viewSize; i++){
     drawXat = 0;
     for (j = viewChuncCoo.x; j < viewChuncCoo.x+viewSize; j++){
-      //console.log("x: " + i + " y: " + j);
+      // console.log("x: " + i + " y: " + j);
       if(i < 0 || j < 0 || i > cooMaxX || j > cooMaxY){
         drawTile(0,drawXat,drawYat);
-        
       } else if (island[i][j].id == 1){
         drawTile(1,drawXat,drawYat);
-        island[i][j].placeCanvas = {x:drawXat,y:drawYat,};
-
       } else if (island[i][j].id == 0){
         drawTile(0,drawXat,drawYat);
-        island[i][j].placeCanvas = {x:drawXat,y:drawYat,};
       }
       drawXat += tilesize;
     }
@@ -210,9 +230,11 @@ function isKeyDown() {
 
 }
 
+function itemToInventory() {
+  
 
 
-
+}
 
 
 function draw() {
@@ -220,21 +242,7 @@ function draw() {
   drawView();
   drawElipse();
 }
-// function keyPressed(){
-//   drawView();
-//   if (keyCode == DOWN_ARROW){
-//     targetY = ypos + speed;
-//   }
-//   if (keyCode == UP_ARROW){
-//     targetY = ypos - speed;
-//   }
-//   if (keyCode == LEFT_ARROW) {
-//     targetX = xpos - speed;
-//   }
-//   if (keyCode == RIGHT_ARROW) {
-//     targetX = xpos + speed;
-//   }
-// }
+
 //Read island model//
 function readMatrix(){
   var rowLength = islandMatrix[0].length;

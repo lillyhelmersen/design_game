@@ -36,6 +36,14 @@ h1 {
     font-size: 23px;
     font-weight: 100;
 }
+div#items-list {
+	background: none !important;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
 
 
 

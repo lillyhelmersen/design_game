@@ -100,6 +100,10 @@ function returnItems() {
     return possibleItems;
 };
 
+function getDiamond() {
+    return diamond;
+};
+
 //console.log(returnItems());
 //console.log(possibleItems);
 //console.log(log);
