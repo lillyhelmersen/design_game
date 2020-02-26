@@ -159,14 +159,14 @@ function setup() {
 
   itemInVeiw();
 }
-function draw() {
+function draw() {//Calls everything that needs to be drawn
   isKeyDown();
   drawView();
   drawItems();
   drawPlayer();
 }
 
-function drawPlayer(){
+function drawPlayer(){//Draws the player in the view
   var startCord = player.coordinate;
   noStroke();
   fill('#A42B2A');
@@ -214,7 +214,7 @@ function drawView(){//Draws tiles on the canwas and asigns them cordinats
   iff null draw water
   */
 }
-function drawItems(){
+function drawItems(){//Draws the item that is in the view
   //square(x, y, size);
 
   for (i = 0; i < itemOnView.length; i++){
@@ -225,7 +225,7 @@ function drawItems(){
     drawItem(itemOnView[i],tempPlace.x, tempPlace.y);
   }
 }
-function drawTile(id, x, y){
+function drawTile(id, x, y){//Draws a tile
   //console.log("Draw tile id: " + id + " at x: " +x + " y: " +y);
   switch(id){
     case 0:
@@ -240,30 +240,12 @@ function drawTile(id, x, y){
   }
   square(x, y, tilesize);
 }
-function drawItem(itemToDraw,x,y){
+function drawItem(itemToDraw,x,y){//Draws a item
   fill('#BA7035');
+  itemToDraw.itemPlace.x = x;
+  itemToDraw.itemPlace.y = y;
   square(x+20, y+20, 30);
 }
-/*/ELIPSES
-function drawElipse(){
-  stroke(0);
-  ellipseMode(CENTER);
-
-  ellipse(xpos, ypos, 25, 25);
-
-  var dx = targetX -xpos;
-  if (abs(dx) > 1) {
-    xpos = xpos + dx * easing;
-  }
-  var dy = targetY - ypos;
-  if (abs(dy) > 1) {
-    ypos = ypos + dy * easing;
-  }
-  // display xpos variable
-  //fill(255);
-  //text("xpos = " + xpos, 25, 25);
-  //text("ypos = " + ypos, 25, 55);
-}//*/
 
 //veiw shidft \
 function isNextMap(x,y){//When plye hits the side change paramiters for view
@@ -309,7 +291,7 @@ function itemInVeiw(){//Calculets what item shuld be drawn
   //console.log(itemOnView);
 }
 //KESY
-function isKeyDown() {
+function isKeyDown() {//Cheks if a key is held
   if (keyIsDown(DOWN_ARROW)) {
     targetY = ypos + speed;
   }
@@ -326,7 +308,7 @@ function isKeyDown() {
 
 }
 //Read island model//
-function readMatrix(){
+function readMatrix(){//Reds islandMatrix and adds tiles to island[]
   var rowLength = islandMatrix[0].length;
 
   var tempIland =  new Array(islandMatrix.length);
