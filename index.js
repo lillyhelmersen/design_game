@@ -3,7 +3,7 @@
 //Game
 var posibelItems = [];//1 of alle the posible items
 var tilesize = 50;
-var viewSize = 3;
+var viewSize = 6;
 //Game bord
 
 var island = new Array();//contains tiles
@@ -101,12 +101,13 @@ function prelode() {
 
 function setup() {
   createCanvas(400, 400);
+  frameRate(30);
   background(0);
   island = readMatrix();
-  drawView();
 }
 
 function draw() {
+  drawView();
 
   drawElipse();
 }
