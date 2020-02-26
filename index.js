@@ -155,8 +155,9 @@ function setup() {
     itemType: "NO",
     image:"NO",
     itemPoint: {x:9,y:9},
+    itemPlace: place,
   });//Test end
-
+  drawView();
   itemInVeiw();
 }
 function draw() {//Calls everything that needs to be drawn
@@ -214,15 +215,9 @@ function drawView(){//Draws tiles on the canwas and asigns them cordinats
   iff null draw water
   */
 }
-function drawItems(){//Draws the item that is in the view
-  //square(x, y, size);
-
+function drawItems(){//Draws the item and asigns it a place that is in the view
   for (i = 0; i < itemOnView.length; i++){
-    var tempX = itemOnView[i].itemPoint.x;
-    var tempY = itemOnView[i].itemPoint.y;
-    var tempPlace = island[tempX][tempY].placeCanvas;
-    //console.log("temp place: " + tempPlace.x);
-    drawItem(itemOnView[i],tempPlace.x, tempPlace.y);
+    drawItem(itemOnView[i]);
   }
 }
 function drawTile(id, x, y){//Draws a tile
@@ -240,11 +235,10 @@ function drawTile(id, x, y){//Draws a tile
   }
   square(x, y, tilesize);
 }
-function drawItem(itemToDraw,x,y){//Draws a item
+function drawItem(itemToDraw){//Draws a item
   fill('#BA7035');
-  itemToDraw.itemPlace.x = x;
-  itemToDraw.itemPlace.y = y;
-  square(x+20, y+20, 30);
+
+  square(itemToDraw.itemPlace.x+20, itemToDraw.itemPlace.y+20, 30);
 }
 
 //veiw shidft \
@@ -279,11 +273,20 @@ function isNextMap(x,y){//When plye hits the side change paramiters for view
 
 
 }
-function itemInVeiw(){//Calculets what item shuld be drawn
+function itemInVeiw(){//Calculets what item shuld be drawn and asign place in view
   itemOnView = [];
   for (i = 0; i < itemOnbord.length; i++){
     if(itemOnbord[i].itemPoint.x > mapDrawCoo.x && itemOnbord[i].itemPoint.x < mapDrawCoo.x+viewSize){
       if(itemOnbord[i].itemPoint.y > mapDrawCoo.y && itemOnbord[i].itemPoint.y < mapDrawCoo.y+viewSize){
+        //Assigning place in view to item
+        var tempX = itemOnbord[i].itemPoint.x;
+        var tempY = itemOnbord[i].itemPoint.y;
+        var tempPlace = island[tempX][tempY].placeCanvas;
+        //console.log("tempPlace.x " + island[tempX][tempY].placeCanvas.x);
+        itemOnbord[i].itemPlace.x = tempPlace.x;
+        itemOnbord[i].itemPlace.y = tempPlace.y;
+
+        //Adds item to list of items in view
         itemOnView.push(itemOnbord[i]);
       }
     }
