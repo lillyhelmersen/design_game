@@ -1,7 +1,7 @@
 /*Downloaded from https://www.codeseek.co/Jastor11/p5js-character-moving-on-screen-dpEQqJ */
 //30/50
 //Game
-var posibelItems = [];//1 of alle the posible items
+var possibleItems = []; //1 of all the possible items
 var tilesize = 50;
 var viewSize = 6;
 //Game bord
