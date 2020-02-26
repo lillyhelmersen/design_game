@@ -1,9 +1,11 @@
 /*Downloaded from https://www.codeseek.co/Jastor11/p5js-character-moving-on-screen-dpEQqJ */
 //30/50
+wi = 400;
+hi = 400;
 //Game
 var posibelItems = [];//1 of alle the posible items
 var tilesize = 50;
-var viewSize = 6;
+var viewSize = 12;
 //Game bord
 
 var island = new Array();//contains tiles
@@ -62,7 +64,6 @@ var item = {
   image:"NO",
   itemPlace: place,
 };
-
 //tile
 var tile = {
   id: 0,
@@ -73,7 +74,6 @@ var tile = {
   //tileItem: item,
   //eddg: false,
 };
-
 //Player
 var player = {
   name: "NO",
@@ -82,7 +82,10 @@ var player = {
     x: 8,
     y: 8,
   },
-  placeCanvas: place,
+  placeCanvas: {
+    x: wi/2,
+    y: hi/2,
+  },
   inventory: [],//List of items payer has
 };
 
@@ -92,7 +95,7 @@ var xpos = 100;
 var ypos = 100;
 var targetX;
 var targetY;
-var speed = 50;
+var speed = 100;
 var easing = 0.05;
 
 function prelode() {
@@ -100,53 +103,27 @@ function prelode() {
 }
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(wi, hi);
   frameRate(60);
   background(0);
   island = readMatrix();
 }
 
-function isKeyDown() {
-  if (keyIsDown(DOWN_ARROW)) {
-    targetY = ypos + speed;
-  }
-  if (keyIsDown(UP_ARROW)){
-    targetY = ypos - speed;
-  }
-  if (keyIsDown(LEFT_ARROW)) {
-    targetX = xpos - speed;
-  }
-  if (keyIsDown(RIGHT_ARROW)) {
-    targetX = xpos + speed;
-  }
-
-  
-}
-
-
-
-
-
-
-function draw() {
-  isKeyDown();
-  drawView();
-  drawElipse();
-}
 function drawPlayer(){
-  var playerCoo = player.coordinate;
+  var startCord = player.coordinate;
 
 }
 function drawView(){
   //console.log("Draw viwa");
   var water = island[0][0];//A water tile 0,0
-  var playerCoo = player.coordinate;
+  var startCord = player.coordinate;
+  var viewChuncCoo = {x:0,y:0};
   var drawXat = 0;
   var drawYat = 0;//tilesize
 
-  for(i = playerCoo.y-viewSize; i < playerCoo.y+viewSize; i++){
+  for(i = viewChuncCoo.y; i < viewChuncCoo.y+viewSize; i++){
     drawXat = 0;
-    for (j = playerCoo.x-viewSize; j < playerCoo.x+viewSize; j++){
+    for (j = startCord.x-viewSize; j < startCord.x+viewSize; j++){
       console.log("x: " + i + " y: " + j);
       if(i < 0 || j < 0 || i > cooMaxX || j > cooMaxY){
         drawTile(0,drawXat,drawYat);
@@ -201,6 +178,33 @@ function drawElipse(){
 }
 
 //KESY
+function isKeyDown() {
+  if (keyIsDown(DOWN_ARROW)) {
+    targetY = ypos + speed;
+  }
+  if (keyIsDown(UP_ARROW)){
+    targetY = ypos - speed;
+  }
+  if (keyIsDown(LEFT_ARROW)) {
+    targetX = xpos - speed;
+  }
+  if (keyIsDown(RIGHT_ARROW)) {
+    targetX = xpos + speed;
+  }
+
+
+}
+
+
+
+
+
+
+function draw() {
+  isKeyDown();
+  drawView();
+  drawElipse();
+}
 // function keyPressed(){
 //   drawView();
 //   if (keyCode == DOWN_ARROW){
