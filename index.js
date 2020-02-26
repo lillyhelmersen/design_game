@@ -9,10 +9,11 @@ var diamond = {
     name: "diamond",
     itemType: "NO",
     image:"img/diamond.svg",
-    itemPlace: {
+    itemPoint: {
         x: 36,
         y: 5,
     },
+    itemPlace: {x:-1,y:-1,},
   };
 
 
@@ -93,6 +94,7 @@ var item = {
   name: "NO",
   itemType: "NO",
   image:"NO",
+  itemPoint: point,
   itemPlace: place,
 };
 //tile
@@ -146,16 +148,16 @@ function setup() {
   background(0);
   noStroke();
   island = readMatrix();
-//Test eske away
+//Test for drawing item take away when items are added
   itemOnbord.push({
     id: 0,
     name: "NO",
     itemType: "NO",
     image:"NO",
-    itemPlace: {x:9,y:9},
-  });
-  itemInVeiw();
+    itemPoint: {x:9,y:9},
+  });//Test end
 
+  itemInVeiw();
 }
 function draw() {
   isKeyDown();
@@ -216,8 +218,8 @@ function drawItems(){
   //square(x, y, size);
 
   for (i = 0; i < itemOnView.length; i++){
-    var tempX = itemOnView[i].itemPlace.x;
-    var tempY = itemOnView[i].itemPlace.y;
+    var tempX = itemOnView[i].itemPoint.x;
+    var tempY = itemOnView[i].itemPoint.y;
     var tempPlace = island[tempX][tempY].placeCanvas;
     //console.log("temp place: " + tempPlace.x);
     drawItem(itemOnView[i],tempPlace.x, tempPlace.y);
@@ -298,8 +300,8 @@ function isNextMap(x,y){//When plye hits the side change paramiters for view
 function itemInVeiw(){//Calculets what item shuld be drawn
   itemOnView = [];
   for (i = 0; i < itemOnbord.length; i++){
-    if(itemOnbord[i].itemPlace.x > mapDrawCoo.x && itemOnbord[i].itemPlace.x < mapDrawCoo.x+viewSize){
-      if(itemOnbord[i].itemPlace.y > mapDrawCoo.y && itemOnbord[i].itemPlace.y < mapDrawCoo.y+viewSize){
+    if(itemOnbord[i].itemPoint.x > mapDrawCoo.x && itemOnbord[i].itemPoint.x < mapDrawCoo.x+viewSize){
+      if(itemOnbord[i].itemPoint.y > mapDrawCoo.y && itemOnbord[i].itemPoint.y < mapDrawCoo.y+viewSize){
         itemOnView.push(itemOnbord[i]);
       }
     }
@@ -323,22 +325,6 @@ function isKeyDown() {
 
 
 }
-
-// function keyPressed(){
-//   drawView();
-//   if (keyCode == DOWN_ARROW){
-//     targetY = ypos + speed;
-//   }
-//   if (keyCode == UP_ARROW){
-//     targetY = ypos - speed;
-//   }
-//   if (keyCode == LEFT_ARROW) {
-//     targetX = xpos - speed;
-//   }
-//   if (keyCode == RIGHT_ARROW) {
-//     targetX = xpos + speed;
-//   }
-// }
 //Read island model//
 function readMatrix(){
   var rowLength = islandMatrix[0].length;
@@ -397,3 +383,19 @@ function readMatrix(){
     //console.log(tempIland);
     return tempIland;
 }
+
+// function keyPressed(){
+//   drawView();
+//   if (keyCode == DOWN_ARROW){
+//     targetY = ypos + speed;
+//   }
+//   if (keyCode == UP_ARROW){
+//     targetY = ypos - speed;
+//   }
+//   if (keyCode == LEFT_ARROW) {
+//     targetX = xpos - speed;
+//   }
+//   if (keyCode == RIGHT_ARROW) {
+//     targetX = xpos + speed;
+//   }
+// }

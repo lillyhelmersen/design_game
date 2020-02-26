@@ -4,10 +4,11 @@ var log = {
     name: "log",
     itemType: "NO",
     image: "img/log.svg",
-    itemPlace: {
+    itemPoint: {
         x: 28,
         y: 37,
     },
+    itemPlace: {x:-1,y:-1,},
   };
 
 // Firewood
@@ -16,10 +17,11 @@ var firewood = {
     name: "firewood",
     itemType: "NO",
     image:"img/firewood.svg",
-    itemPlace: {
+    itemPoint: {
         x: 15,
         y: 22,
     },
+    itemPlace: {x:-1,y:-1,},
   };
 
 // Flint
@@ -28,10 +30,11 @@ var flint = {
     name: "flint",
     itemType: "NO",
     image:"img/flint.svg",
-    itemPlace: {
+    itemPoint: {
         x: 36,
         y: 19,
     },
+    itemPlace: {x:-1,y:-1,},
   };
 
 // Stone
@@ -40,10 +43,11 @@ var stone = {
     name: "stone",
     itemType: "NO",
     image:"img/stone.svg",
-    itemPlace: {
+    itemPoint: {
         x: 14,
         y: 7,
     },
+    itemPlace: {x:-1,y:-1,},
   };
 
 // Apple
@@ -52,7 +56,7 @@ var apple = {
     name: "apple",
     itemType: "NO",
     image:"img/apple.svg",
-    itemPlace: {
+    itemPoint: {
         x: 15,
         y: 16,
     },
@@ -64,10 +68,11 @@ var brick = {
     name: "brick",
     itemType: "NO",
     image:"img/brick.svg",
-    itemPlace: {
+    itemPoint: {
         x: 14,
         y: 7,
     },
+    itemPlace: {x:-1,y:-1,},
   };
 
 // Wheat
@@ -76,10 +81,11 @@ var wheat = {
     name: "wheat",
     itemType: "NO",
     image:"img/wheat.svg",
-    itemPlace: {
+    itemPoint: {
         x: 38,
         y: 12,
     },
+    itemPlace: {x:-1,y:-1,},
   };
 
 // Diamond
@@ -88,10 +94,11 @@ var diamond = {
     name: "diamond",
     itemType: "NO",
     image:"img/diamond.svg",
-    itemPlace: {
+    itemPoint: {
         x: 36,
         y: 5,
     },
+    itemPlace: {x:-1,y:-1,},
   };
 
 var possibleItems = [log, firewood, flint, stone, apple, brick, wheat, diamond];
