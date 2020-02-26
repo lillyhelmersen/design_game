@@ -118,7 +118,7 @@ function drawView(){
   //console.log("Draw viwa");
   var water = island[0][0];//A water tile 0,0
   var startCord = player.coordinate;
-  var viewChuncCoo = {x:20,y:20};
+  var viewChuncCoo = {x:3,y:3};
   var drawXat = 0;
   var drawYat = 0;//tilesize
 
