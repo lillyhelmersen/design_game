@@ -6,7 +6,7 @@ var tilesize = 50;
 var viewSize = 6;
 //Game bord
 
-var island = [];//contains tiles
+var island = [[]];//contains tiles
 var itemOnbord = []; //all the items that are placed in the world
 var islandMatrix = [
   "00000000000000000000000000000000000000000000000000",
@@ -76,7 +76,10 @@ var tile = {
 var player = {
   name: "NO",
   image: "NO",
-  coordinate: point,
+  coordinate: {
+    x: 20,
+    y: 20,
+  },
   placeCanvas: place,
   inventory: [],//List of items payer has
 };
@@ -97,26 +100,28 @@ function prelode() {
 function setup() {
   createCanvas(400, 400);
   background(0);
+  island = readMatrix();
+  drawView();
 }
 
 function draw() {
   background(100);
   drawElipse();
-
 }
 function drawPlayer(){
   var playerCoo = player.coordinate;
 
 }
 function drawView(){
+  console.log("Draw viwa");
   var water = island[0][0];//A water tile 0,0
   var playerCoo = player.coordinate;
   var drawXat = 0;
   var drawYat = 0;//tilesize
 
-  for(i = 0; i < playerCoo.y+viewSize; i++){
-    for (j = 0; j < playerCoo.x+viewSize; i++){
-      if(island[i][j] == null){
+  for(i = playerCoo.y-viewSize; i < playerCoo.y+viewSize; i++){
+    for (j = playerCoo.x-viewSize; j < playerCoo.x+viewSize; i++){
+      if(i < 0 || j < 0){
         drawTile(0,drawXat,drawYat);
       } else if (island[i][j].id == 1){
         drawTile(1,drawXat,drawYat);
@@ -184,6 +189,7 @@ function keyPressed(){
 }
 //Read island model//
 function readMatrix(){
+  var tempIland = [[]];
   for ( i = 0; i < islandMatrix.length; i++) {
 
   // console.log(islandMatrix.length);
@@ -194,9 +200,9 @@ function readMatrix(){
             for ( j = 0; j < row.length; j++) {
                 //parse each character to do something depending on the value
               switch (row.charAt(j)) {
-                 
+
                 case '0':
-                  var tile = {
+                  tempIland[i][j] = {
                       id: 0,
                       tileType: "NO",
                       image: "NO",
@@ -206,14 +212,14 @@ function readMatrix(){
                         y: j,
                       },
                       tileItem: "NO",
-                    }
+                    };
                     // console.log(tile);
-                    island.push(tile);
+                    //island.push(tile);
                   //create water tile
-                        break;                 
+                        break;
                 case '1':
-                  var tile = {
-                      id: 0,
+                  tempIland[i][j] = {
+                      id: 1,
                       tileType: "NO",
                       image: "NO",
                       placeCanvas: place,
@@ -222,36 +228,18 @@ function readMatrix(){
                         y: j,
                       },
                       tileItem: "NO",
-                    }
+                    };
                     //create land tile
-                    island.push(tile);    
+                    // island.push(tile);
                         break;
                 // case '2':
                       //create other tile
-                        // break;                                                               
+                        // break;
                 }
-              
+
             }
 
     }
     console.log(island);
+    return tempIland;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
