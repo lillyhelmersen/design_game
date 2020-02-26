@@ -244,9 +244,8 @@ function drawTile(id, x, y){//Draws a tile
   }
   square(x, y, tilesize);
 }
-function drawItem(itemToDraw){//Draws a item
+function drawItem(itemToDraw){//Draws the items image
   fill('#BA7035');
-
   square(itemToDraw.itemPlace.x+20, itemToDraw.itemPlace.y+20, 30);
 }
 function drawItemPickupSymbol(){
