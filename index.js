@@ -149,6 +149,7 @@ function setup() {
 function draw() {
   isKeyDown();
   drawView();
+  //drawItems();
   drawPlayer();
 }
 
@@ -197,6 +198,15 @@ function drawView(){
   draw y-6 to y+6
   iff null draw water
   */
+}
+function drawItems(){
+  //square(x, y, size);
+  for (i = 0; i < itemOnView.length; i++){
+    var tempX = itemOnView[i].itemPlace.x;
+    var tempY = itemOnView[i].itemPlace.y;
+    
+
+  }
 }
 function drawTile(id, x, y){
   //console.log("Draw tile id: " + id + " at x: " +x + " y: " +y);
