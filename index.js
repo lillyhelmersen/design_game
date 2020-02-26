@@ -3,7 +3,7 @@
 wi = 400;
 hi = 400;
 //Game
-var posibelItems = [];//1 of alle the posible items
+var possibleItems = []; //1 of all the possible items
 var tilesize = 50;
 var viewSize = 12;
 //Game bord
@@ -103,7 +103,8 @@ function prelode() {
 }
 
 function setup() {
-  createCanvas(wi, hi);
+  var board = createCanvas(wi, hi);
+   board.parent("board-container");
   frameRate(60);
   background(0);
   island = readMatrix();

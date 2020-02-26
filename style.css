@@ -1,3 +1,37 @@
 
 /*Downloaded from https://www.codeseek.co/Jastor11/p5js-character-moving-on-screen-dpEQqJ */
-body {padding: 0; margin: 0;}
+* {
+	box-sizing: border-box;
+	font-family: Roboto;
+}
+html {
+	height: 100%;
+	width: 100%;
+}
+body {
+	padding: 0; margin: 0;
+	height: 100%;
+	width: 100%;
+}
+.container {
+	height: 100%;
+	display: flex;
+}
+div#inventory-container {
+	background-color: #f3f3f7;
+}
+div#inventory-container div {
+	background-color: #e6e8f1;
+	padding: 10px 20px; 
+	display: flex;
+}
+div#inventory-container div object{
+	width: 30px;
+	margin-right: 10px;
+}
+h1 {
+	margin: 0;
+}
+
+
+
