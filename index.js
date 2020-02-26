@@ -281,16 +281,25 @@ function pickUpItem(){
     var pickItem = player.clowsestItem;
     print("pick up item s'il vous plais")
     addItemToInventory(pickItem);
-    deleteItem();
+    deleteItem(pickItem);
   }
 }
 
 //Delaing with items
-function deleteItem(){//Takes away the picked up item form world
-
+function deleteItem(deleteItem){//Takes away the picked up item form world
+  for (i = 0; i < itemOnbord.length; i++){
+    if(itemOnbord[i].itemPoint == deleteItem.itemPoint){
+      itemOnbord.splice(i, 1);
+    }
+  }
+  for (i = 0; itemOnView.length; i++){
+    if(itemOnView[i].itemPoint == deleteItem.itemPoint){
+      itemOnView.splice(i, 1);
+    }
+  }
 }
 function addItemToInventory(pickItem){//Adds item to inventory
-
+  player.inventory.puch(pickItem);
 }
 
 //veiw shidft \
