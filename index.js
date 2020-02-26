@@ -120,7 +120,10 @@ var player = {
     y: hi/2,
   },
   inventory: [getDiamond()],//List of items payer has
+  isClowsToItem: false,
+  clowsestItem: null,
 };
+
 console.log(player.inventory)
 console.log(player.inventory[0].image)
 var inventoryItem = document.createElement("img");
@@ -130,8 +133,8 @@ console.log(inventoryItem)
 document.getElementById("items-list").appendChild(inventoryItem);
 
 //Elipse
-var xpos = 100;
-var ypos = 100;
+var xpos = player.placeCanvas.x;
+var ypos = player.placeCanvas.y;
 var targetX;
 var targetY;
 var speed = 100;
@@ -142,7 +145,7 @@ function prelode() {
 }
 
 function setup() {
-  var board = createCanvas(wi + 1, hi + 1);
+  var board = createCanvas(wi, hi);
    board.parent("board-container");
   frameRate(60);
   background(0);
@@ -165,16 +168,22 @@ function draw() {//Calls everything that needs to be drawn
   drawView();
   drawItems();
   drawPlayer();
+  playerClowsToItem();
+  drawItemPickupSymbol();
 }
 
 function drawPlayer(){//Draws the player in the view
-  var startCord = player.coordinate;
+
   noStroke();
   fill('#A42B2A');
   ellipseMode(CENTER);
   ellipse(xpos, ypos, 25, 25);
-  isNextMap(xpos,ypos);
+  player.placeCanvas.x = xpos;
+  player.placeCanvas.y = ypos;
 
+  isNextMap(xpos,ypos);//To si if plyer is at the edgj
+
+//Movment of player
   var dx = targetX -xpos;
   if (abs(dx) > 1) {
     xpos = xpos + dx * easing;
@@ -239,6 +248,50 @@ function drawItem(itemToDraw){//Draws a item
   fill('#BA7035');
 
   square(itemToDraw.itemPlace.x+20, itemToDraw.itemPlace.y+20, 30);
+}
+function drawItemPickupSymbol(){
+  if(player.isClowsToItem == true){
+    fill('#fffff');
+    ellipseMode(CENTER);
+    ellipse(xpos+15, ypos-15, 10, 10);
+  }
+}
+
+//Events?
+function playerClowsToItem(){
+  player.isClowsToItem = false;
+
+  var px = player.placeCanvas.x;
+  var py = player.placeCanvas.y;
+
+  for (i = 0; i < itemOnView.length; i++){
+
+    var itemX = itemOnView[i].itemPlace.x + tilesize/2;
+    var itemY = itemOnView[i].itemPlace.y+ tilesize/2;
+    var distans = dist(px,py,itemX,itemY);//Givs distans between
+
+    if (distans < tilesize/2){
+      player.isClowsToItem = true;
+      player.clowsestItem = itemOnView[i];
+      //console.log("I am clos to item");
+    }
+  }
+}
+function pickUpItem(){
+  if(player.isClowsToItem){
+    var pickItem = player.clowsestItem;
+    print("pick up item s'il vous plais")
+    addItemToInventory(pickItem);
+    deleteItem();
+  }
+}
+
+//Delaing with items
+function deleteItem(){//Takes away the picked up item form world
+
+}
+function addItemToInventory(pickItem){//Adds item to inventory
+
 }
 
 //veiw shidft \
@@ -367,6 +420,13 @@ function readMatrix(){//Reds islandMatrix and adds tiles to island[]
   }
     //console.log(tempIland);
     return tempIland;
+}
+
+//Keypresed
+function keyTyped(){
+  if(key === ' '){
+    pickUpItem();
+  }
 }
 
 // function keyPressed(){
