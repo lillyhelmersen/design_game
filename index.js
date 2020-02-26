@@ -101,14 +101,36 @@ function prelode() {
 
 function setup() {
   createCanvas(400, 400);
-  frameRate(30);
+  frameRate(60);
   background(0);
   island = readMatrix();
 }
 
-function draw() {
-  drawView();
+function isKeyDown() {
+  if (keyIsDown(DOWN_ARROW)) {
+    targetY = ypos + speed;
+  }
+  if (keyIsDown(UP_ARROW)){
+    targetY = ypos - speed;
+  }
+  if (keyIsDown(LEFT_ARROW)) {
+    targetX = xpos - speed;
+  }
+  if (keyIsDown(RIGHT_ARROW)) {
+    targetX = xpos + speed;
+  }
 
+  
+}
+
+
+
+
+
+
+function draw() {
+  isKeyDown();
+  drawView();
   drawElipse();
 }
 function drawPlayer(){
@@ -179,21 +201,21 @@ function drawElipse(){
 }
 
 //KESY
-function keyPressed(){
-  drawView();
-  if (keyCode == DOWN_ARROW){
-    targetY = ypos + speed;
-  }
-  if (keyCode == UP_ARROW){
-    targetY = ypos - speed;
-  }
-  if (keyCode == LEFT_ARROW) {
-    targetX = xpos - speed;
-  }
-  if (keyCode == RIGHT_ARROW) {
-    targetX = xpos + speed;
-  }
-}
+// function keyPressed(){
+//   drawView();
+//   if (keyCode == DOWN_ARROW){
+//     targetY = ypos + speed;
+//   }
+//   if (keyCode == UP_ARROW){
+//     targetY = ypos - speed;
+//   }
+//   if (keyCode == LEFT_ARROW) {
+//     targetX = xpos - speed;
+//   }
+//   if (keyCode == RIGHT_ARROW) {
+//     targetX = xpos + speed;
+//   }
+// }
 //Read island model//
 function readMatrix(){
   var rowLength = islandMatrix[0].length;
