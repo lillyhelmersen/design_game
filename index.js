@@ -299,7 +299,7 @@ function deleteItem(deleteItem){//Takes away the picked up item form world
   }
 }
 function addItemToInventory(pickItem){//Adds item to inventory
-  player.inventory.puch(pickItem);
+  player.inventory.push(pickItem);
 }
 
 //veiw shidft \
