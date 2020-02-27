@@ -103,7 +103,7 @@ var player = {
     x: wi-100,
     y: hi-100,
   },
-  inventory: [getDiamond()],//List of items payer has
+  inventory: [],//List of items payer has
   isClowsToItem: false,
   clowsestItem: null,
   noGo: {
@@ -124,7 +124,7 @@ document.getElementById("items-list").appendChild(inventoryItem);
 function getDiamond() {
 
   return possibleItems[possibleItems.length];
-};*
+};*/
 
 //Elipse
 var xpos = player.placeCanvas.x;
@@ -140,7 +140,7 @@ function prelode() {
 
 function setup() {
   var board = createCanvas(wi, hi);
-   board.parent("board-container");
+    board.parent("board-container");
   frameRate(60);
   background(0);
   noStroke();
@@ -365,13 +365,17 @@ function makeItemsForMap(){
             if(random(100) < 10) {
               // Pick random item from list
               //var spawnedItem = possibleItems[Math.floor(Math.random() * possibleItems.length)];
-              var spawnedItem = random(possibleItems);
+              var spawnedItemTemp = random(possibleItems);
               // Clone new object
-              spawnedItem = Object.assign({}, spawnedItem);
+              var spawnedItem = spawnedItemTemp;//Object.assign({}, spawnedItemTemp);
 
+              print("Adding item: i " + i, " j: " + j);
+              print("X. " + spawnedItem.itemPoint.x);
               // Assign spawned item's new point
+              console.log(spawnedItem);
               spawnedItem.itemPoint.x = i;
               spawnedItem.itemPoint.y = j;
+              console.log(spawnedItem);
 
               // Creates new array
               allItems.push(spawnedItem);
@@ -380,8 +384,7 @@ function makeItemsForMap(){
           }
         }
   }
-  //console.log(spawnedItem);
-  console.log(allItems);
+  //console.log(allItems);
   return allItems;
 }
 function returnPosibelItems() {
@@ -398,71 +401,6 @@ function returnPosibelItems() {
     },
     itemPlace: {x:-1,y:-1,},
   };
-
-  // Firewood
-  var firewood = {
-    id: 1,
-    name: "firewood",
-    itemType: "NO",
-    image:"img/firewood.svg",
-    itemPoint: {
-      x: 15,
-      y: 22,
-    },
-    itemPlace: {x:-1,y:-1,},
-  };
-
-  // Flint
-  var flint = {
-    id: 2,
-    name: "flint",
-    itemType: "NO",
-    image:"img/flint.svg",
-    itemPoint: {
-      x: 36,
-      y: 19,
-    },
-    itemPlace: {x:-1,y:-1,},
-  };
-
-  // Stone
-  var stone = {
-    id: 3,
-    name: "stone",
-    itemType: "NO",
-    image:"img/stone.svg",
-    itemPoint: {
-      x: 14,
-      y: 7,
-    },
-    itemPlace: {x:-1,y:-1,},
-  };
-
-  // Apple
-  var apple = {
-    id: 4,
-    name: "apple",
-    itemType: "NO",
-    image:"img/apple.svg",
-    itemPoint: {
-      x: 15,
-      y: 16,
-    },
-  };
-
-  // Brick
-  var brick = {
-    id: 5,
-    name: "brick",
-    itemType: "NO",
-    image:"img/brick.svg",
-    itemPoint: {
-      x: 14,
-      y: 7,
-    },
-    itemPlace: {x:-1,y:-1,},
-  };
-
   // Firewood
   var firewood = {
       id: 1,
@@ -475,7 +413,6 @@ function returnPosibelItems() {
       },
       itemPlace: {x:-1,y:-1,},
     };
-
   // Flint
   var flint = {
       id: 2,
@@ -488,7 +425,6 @@ function returnPosibelItems() {
       },
       itemPlace: {x:-1,y:-1,},
     };
-
   // Stone
   var stone = {
       id: 3,
@@ -501,7 +437,6 @@ function returnPosibelItems() {
       },
       itemPlace: {x:-1,y:-1,},
     };
-
   // Apple
   var apple = {
       id: 4,
@@ -512,6 +447,7 @@ function returnPosibelItems() {
           x: 15,
           y: 16,
       },
+      itemPlace: {x:-1,y:-1,},
     };
   // Brick
   var brick = {
@@ -537,7 +473,6 @@ function returnPosibelItems() {
     },
     itemPlace: {x:-1,y:-1,},
   };
-
   // Diamond
   var diamond = {
     id: 7,
