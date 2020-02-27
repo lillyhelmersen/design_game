@@ -5,126 +5,12 @@ hi = 700;
 
 //Game
 
-// **** ITEMS *****
-// Log
-var log = {
-  id: 0,
-  name: "log",
-  itemType: "NO",
-  image: "img/log.svg",
-  itemPoint: {
-      x: 28,
-      y: 37,
-  },
-  itemPlace: {x:-1,y:-1,},
-};
-
-// Firewood
-var firewood = {
-  id: 1,
-  name: "firewood",
-  itemType: "NO",
-  image:"img/firewood.svg",
-  itemPoint: {
-      x: 15,
-      y: 22,
-  },
-  itemPlace: {x:-1,y:-1,},
-};
-
-// Flint
-var flint = {
-  id: 2,
-  name: "flint",
-  itemType: "NO",
-  image:"img/flint.svg",
-  itemPoint: {
-      x: 36,
-      y: 19,
-  },
-  itemPlace: {x:-1,y:-1,},
-};
-
-// Stone
-var stone = {
-  id: 3,
-  name: "stone",
-  itemType: "NO",
-  image:"img/stone.svg",
-  itemPoint: {
-      x: 14,
-      y: 7,
-  },
-  itemPlace: {x:-1,y:-1,},
-};
-
-// Apple
-var apple = {
-  id: 4,
-  name: "apple",
-  itemType: "NO",
-  image:"img/apple.svg",
-  itemPoint: {
-      x: 15,
-      y: 16,
-  },
-};
-
-// Brick
-var brick = {
-  id: 5,
-  name: "brick",
-  itemType: "NO",
-  image:"img/brick.svg",
-  itemPoint: {
-      x: 14,
-      y: 7,
-  },
-  itemPlace: {x:-1,y:-1,},
-};
-
-// Wheat
-var wheat = {
-  id: 6,
-  name: "wheat",
-  itemType: "NO",
-  image:"img/wheat.svg",
-  itemPoint: {
-      x: 38,
-      y: 12,
-  },
-  itemPlace: {x:-1,y:-1,},
-};
-
-// Diamond
-var diamond = {
-  id: 7,
-  name: "diamond",
-  itemType: "NO",
-  image:"img/diamond.svg",
-  itemPoint: {
-      x: 36,
-      y: 5,
-  },
-  itemPlace: {x:-1,y:-1,},
-};
-
-var possibleItems = [log, firewood, flint, stone, apple, brick, wheat, diamond];
-
-function returnItems() {
-  return possibleItems;
-};
-
-
-function getDiamond() {
-    return diamond;
-};
-
 
 var tilesize = 70;
 var viewSize = 10;
 var mapDrawCoo = {x:0,y:0,};
 //item
+var possibleItems = [];//The posible items
 var itemOnbord = []; //all the items that are placed in the world
 var itemOnView = [];
 //Game bord
@@ -228,13 +114,17 @@ var player = {
   },
 };
 
-console.log(player.inventory)
+/*console.log(player.inventory)
 console.log(player.inventory[0].image)
 var inventoryItem = document.createElement("img");
 inventoryItem.setAttribute("src", player.inventory[0].image);
 console.log(inventoryItem)
 
 document.getElementById("items-list").appendChild(inventoryItem);
+function getDiamond() {
+
+  return possibleItems[possibleItems.length];
+};*
 
 //Elipse
 var xpos = player.placeCanvas.x;
@@ -255,7 +145,8 @@ function setup() {
   background(0);
   noStroke();
   island = readMatrix();
-//Test for drawing item take away when items are added
+  possibleItems = returnPosibelItems();
+/*Test for drawing item take away when items are added
   itemOnbord.push({
     id: 0,
     name: "NO",
@@ -263,38 +154,12 @@ function setup() {
     image:"NO",
     itemPoint: {x:9,y:9},
     itemPlace: place,
-  });//Test end
+  });//Test end*/
   drawView();
-
-  let allItems = [];
-
-  for (i = 0; i < island.length; i++){
-      for (j = 0; j < island[i].length; j++){
-
-          if (island[i][j].id == 1) {
-            if(random(100) < 10) {
-              // Pick random item from list
-              var spawnedItem = possibleItems[Math.floor(Math.random() * possibleItems.length)];
-              console.log(spawnedItem);
-             
-              // Clone new object 
-              spawnedItem = Object.assign({}, spawnedItem);
-
-              // Assign spawned item's new point
-              spawnedItem.itemPoint.x = i;
-              spawnedItem.itemPoint.y = j;
-
-              // Creates new array
-              append(allItems, spawnedItem);
-              console.log(allItems);
-            } 
-          }
-        } 
-  }
-
+  itemOnbord = makeItemsForMap();
   itemInVeiw();
 
-  
+
 }
 function draw() {//Calls everything that needs to be drawn
   isKeyDown();
@@ -490,6 +355,205 @@ function deleteItem(deleteItem){//Takes away the picked up item form world
 function addItemToInventory(pickItem){//Adds item to inventory
   player.inventory.push(pickItem);
 }
+function makeItemsForMap(){
+  let allItems = [];
+
+  for (i = 0; i < island.length; i++){
+      for (j = 0; j < island[i].length; j++){
+
+          if (island[i][j].id == 1) {
+            if(random(100) < 10) {
+              // Pick random item from list
+              //var spawnedItem = possibleItems[Math.floor(Math.random() * possibleItems.length)];
+              var spawnedItem = random(possibleItems);
+              // Clone new object
+              spawnedItem = Object.assign({}, spawnedItem);
+
+              // Assign spawned item's new point
+              spawnedItem.itemPoint.x = i;
+              spawnedItem.itemPoint.y = j;
+
+              // Creates new array
+              allItems.push(spawnedItem);
+              //append(allItems, spawnedItem);
+            }
+          }
+        }
+  }
+  //console.log(spawnedItem);
+  console.log(allItems);
+  return allItems;
+}
+function returnPosibelItems() {
+  // **** ITEMS *****
+  // Log
+  var log = {
+    id: 0,
+    name: "log",
+    itemType: "NO",
+    image: "img/log.svg",
+    itemPoint: {
+      x: 28,
+      y: 37,
+    },
+    itemPlace: {x:-1,y:-1,},
+  };
+
+  // Firewood
+  var firewood = {
+    id: 1,
+    name: "firewood",
+    itemType: "NO",
+    image:"img/firewood.svg",
+    itemPoint: {
+      x: 15,
+      y: 22,
+    },
+    itemPlace: {x:-1,y:-1,},
+  };
+
+  // Flint
+  var flint = {
+    id: 2,
+    name: "flint",
+    itemType: "NO",
+    image:"img/flint.svg",
+    itemPoint: {
+      x: 36,
+      y: 19,
+    },
+    itemPlace: {x:-1,y:-1,},
+  };
+
+  // Stone
+  var stone = {
+    id: 3,
+    name: "stone",
+    itemType: "NO",
+    image:"img/stone.svg",
+    itemPoint: {
+      x: 14,
+      y: 7,
+    },
+    itemPlace: {x:-1,y:-1,},
+  };
+
+  // Apple
+  var apple = {
+    id: 4,
+    name: "apple",
+    itemType: "NO",
+    image:"img/apple.svg",
+    itemPoint: {
+      x: 15,
+      y: 16,
+    },
+  };
+
+  // Brick
+  var brick = {
+    id: 5,
+    name: "brick",
+    itemType: "NO",
+    image:"img/brick.svg",
+    itemPoint: {
+      x: 14,
+      y: 7,
+    },
+    itemPlace: {x:-1,y:-1,},
+  };
+
+  // Firewood
+  var firewood = {
+      id: 1,
+      name: "firewood",
+      itemType: "NO",
+      image:"img/firewood.svg",
+      itemPoint: {
+          x: 15,
+          y: 22,
+      },
+      itemPlace: {x:-1,y:-1,},
+    };
+
+  // Flint
+  var flint = {
+      id: 2,
+      name: "flint",
+      itemType: "NO",
+      image:"img/flint.svg",
+      itemPoint: {
+          x: 36,
+          y: 19,
+      },
+      itemPlace: {x:-1,y:-1,},
+    };
+
+  // Stone
+  var stone = {
+      id: 3,
+      name: "stone",
+      itemType: "NO",
+      image:"img/stone.svg",
+      itemPoint: {
+          x: 14,
+          y: 7,
+      },
+      itemPlace: {x:-1,y:-1,},
+    };
+
+  // Apple
+  var apple = {
+      id: 4,
+      name: "apple",
+      itemType: "NO",
+      image:"img/apple.svg",
+      itemPoint: {
+          x: 15,
+          y: 16,
+      },
+    };
+  // Brick
+  var brick = {
+      id: 5,
+      name: "brick",
+      itemType: "NO",
+      image:"img/brick.svg",
+      itemPoint: {
+          x: 14,
+          y: 7,
+      },
+      itemPlace: {x:-1,y:-1,},
+    };
+    // Wheat
+  var wheat = {
+    id: 6,
+    name: "wheat",
+    itemType: "NO",
+    image:"img/wheat.svg",
+    itemPoint: {
+      x: 38,
+      y: 12,
+    },
+    itemPlace: {x:-1,y:-1,},
+  };
+
+  // Diamond
+  var diamond = {
+    id: 7,
+    name: "diamond",
+    itemType: "NO",
+    image:"img/diamond.svg",
+    itemPoint: {
+        x: 36,
+        y: 5,
+    },
+    itemPlace: {x:-1,y:-1,},
+  };
+
+  var possibleItemsTemp = [log, firewood, flint, stone, apple, brick, wheat, diamond];
+  return possibleItemsTemp;
+};
 
 //veiw shidft \
 function isNextMap(x,y){//When plye hits the side change paramiters for view
@@ -656,12 +720,12 @@ function keyTyped(){
               // Pick random item from list
               let spawnedItem = random(possibleItems);
 
-              // Clone new object 
+              // Clone new object
               spawnedItem = Object.assign({}, spawnedItem);
 
               // Assign spawned item's new point
               spawnedItem.itemPoint = {x: i, y: j};
-            
+
               // Creates new array
               append(allItems, spawnedItem);
               console.log(allItems);
