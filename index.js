@@ -5,10 +5,11 @@ hi = 700;
 
 //Game
 
-
 var tilesize = 70;
 var viewSize = 10;
 var mapDrawCoo = {x:0,y:0,};
+var tileImgs = [];
+
 //item
 var possibleItems = [];//The posible items
 var itemOnbord = []; //all the items that are placed in the world
@@ -134,9 +135,13 @@ var targetY;
 var speed = 100;
 var easing = 0.05;
 
-function prelode() {
+function preload() {
+  for (var i=1; i<5; i++) {
+    tileImgs[i] = loadImage("img/tile-imgs/island_0"+ i + ".jpg"); 
+  }
 
 }
+preload();
 
 function setup() {
   var board = createCanvas(wi, hi);
@@ -257,6 +262,10 @@ function drawTile(id, x, y){//Draws a tile
     // code block
     console.log("There was aonce a blog but no more in draw tile");
   }
+  // console.log(image(tileImgs[i], x, y, 70, 70) + "testinggg");
+  // for (var i=0; i<5; i++) {
+  // image(tileImgs[i], x, y, 70, 70);
+  // }
   square(x, y, tilesize);
 }
 function drawItem(itemToDraw){//Draws the items image
