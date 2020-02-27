@@ -260,6 +260,7 @@ function drawTile(id, x, y){//Draws a tile
 }
 function drawItem(itemToDraw){//Draws the items image
   fill('#BA7035');
+  //print("item at x: " + itemToDraw.itemPlace.x + " y: " + itemToDraw.itemPlace.y);
   square(itemToDraw.itemPlace.x+20, itemToDraw.itemPlace.y+20, 30);
 }
 function drawItemPickupSymbol(){
@@ -341,14 +342,22 @@ function hitWater(){
 
 //Delaing with items
 function deleteItem(deleteItem){//Takes away the picked up item form world
+  print("deleteItem.itemPoint: " + deleteItem.itemPoint);
+  print("itemOnbord[i].itemPoint: " + itemOnbord[0].itemPoint.x);
+  print("itemOnView[i].itemPoint: " + itemOnView[0].itemPoint.x);
+
   for (i = 0; i < itemOnbord.length; i++){
     if(itemOnbord[i].itemPoint == deleteItem.itemPoint){
       itemOnbord.splice(i, 1);
     }
   }
-  for (i = 0; itemOnView.length; i++){
-    if(itemOnView[i].itemPoint == deleteItem.itemPoint){
-      itemOnView.splice(i, 1);
+  //print("itemOnView.length: "+itemOnView.length);
+  for (i = 0; i < itemOnView.length; i++){
+    //print("i: " + i + "item: " + itemOnView[i]);
+    if(itemOnView[i].itemPoint.x == deleteItem.itemPoint.x){
+      if(itemOnView[i].itemPoint.y == deleteItem.itemPoint.y){
+        itemOnView.splice(i, 1);
+      }
     }
   }
 }
@@ -365,20 +374,26 @@ function makeItemsForMap(){
             if(random(100) < 10) {
               // Pick random item from list
               //var spawnedItem = possibleItems[Math.floor(Math.random() * possibleItems.length)];
+              var tempPoint = {x:i,y:j};
               var spawnedItemTemp = random(possibleItems);
+              var spawnedItem = Object.assign({}, spawnedItemTemp);
+              allItems.push(spawnedItem);
+              allItems[allItems.length-1].itemPoint = tempPoint;
               // Clone new object
-              var spawnedItem = spawnedItemTemp;//Object.assign({}, spawnedItemTemp);
-
-              print("Adding item: i " + i, " j: " + j);
-              print("X. " + spawnedItem.itemPoint.x);
               // Assign spawned item's new point
-              console.log(spawnedItem);
+              //spawnedItem.itemPoint = tempPoint;
+
+              //console.log("Adding item: i " + i, " j: " + j);
+              //console.log(spawnedItem);
+              //console.log("Adding item: i " + i, " j: " + j);
+              //console.log("X. " + spawnedItem.itemPoint.x);
+              //console.log("Y. " + spawnedItem.itemPoint.y);
+              /*
               spawnedItem.itemPoint.x = i;
               spawnedItem.itemPoint.y = j;
-              console.log(spawnedItem);
+              */
 
               // Creates new array
-              allItems.push(spawnedItem);
               //append(allItems, spawnedItem);
             }
           }
@@ -524,7 +539,11 @@ function isNextMap(x,y){//When plye hits the side change paramiters for view
 }
 function itemInVeiw(){//Calculets what item shuld be drawn and asign place in view
   itemOnView = [];
+  //print("itemOnbord.length: " + itemOnbord.length);
   for (i = 0; i < itemOnbord.length; i++){
+    //print("itemOnbord[i].itemPoint.x: " + itemOnbord[i].itemPoint.x );
+    //print("itemOnbord[i].itemPoint.y: " + itemOnbord[i].itemPoint.y );
+
     if(itemOnbord[i].itemPoint.x > mapDrawCoo.x && itemOnbord[i].itemPoint.x < mapDrawCoo.x+viewSize){
       if(itemOnbord[i].itemPoint.y > mapDrawCoo.y && itemOnbord[i].itemPoint.y < mapDrawCoo.y+viewSize){
         //Assigning place in view to item
@@ -535,6 +554,7 @@ function itemInVeiw(){//Calculets what item shuld be drawn and asign place in vi
         itemOnbord[i].itemPlace.x = tempPlace.x;
         itemOnbord[i].itemPlace.y = tempPlace.y;
 
+        //item print("added a item");
         //Adds item to list of items in view
         itemOnView.push(itemOnbord[i]);
       }
