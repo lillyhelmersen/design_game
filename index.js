@@ -146,6 +146,7 @@ function setup() {
   noStroke();
   island = readMatrix();
   possibleItems = returnPosibelItems();
+  itemOnbord = makeItemsForMap();
 /*Test for drawing item take away when items are added
   itemOnbord.push({
     id: 0,
@@ -156,7 +157,6 @@ function setup() {
     itemPlace: place,
   });//Test end*/
   drawView();
-  itemOnbord = makeItemsForMap();
   itemInVeiw();
 
 
@@ -239,6 +239,7 @@ function drawView(){//Draws tiles on the canwas and asigns them cordinats
   */
 }
 function drawItems(){//Draws the item and asigns it a place that is in the view
+  //print("in drawItems: itemOnView.length: " + itemOnView.length);
   for (i = 0; i < itemOnView.length; i++){
     drawItem(itemOnView[i]);
   }
@@ -342,9 +343,9 @@ function hitWater(){
 
 //Delaing with items
 function deleteItem(deleteItem){//Takes away the picked up item form world
-  print("deleteItem.itemPoint: " + deleteItem.itemPoint);
+  /*print("deleteItem.itemPoint: " + deleteItem.itemPoint);
   print("itemOnbord[i].itemPoint: " + itemOnbord[0].itemPoint.x);
-  print("itemOnView[i].itemPoint: " + itemOnView[0].itemPoint.x);
+  print("itemOnView[i].itemPoint: " + itemOnView[0].itemPoint.x);*/
 
   for (i = 0; i < itemOnbord.length; i++){
     if(itemOnbord[i].itemPoint == deleteItem.itemPoint){
@@ -538,6 +539,7 @@ function isNextMap(x,y){//When plye hits the side change paramiters for view
 
 }
 function itemInVeiw(){//Calculets what item shuld be drawn and asign place in view
+  //print("function itemInVeiw()");
   itemOnView = [];
   //print("itemOnbord.length: " + itemOnbord.length);
   for (i = 0; i < itemOnbord.length; i++){
