@@ -325,7 +325,7 @@ function drawItem(itemToDraw){//Draws the items image
   var tampX = itemToDraw.itemPlace.x;
   var tampY = itemToDraw.itemPlace.y;
   var imag = itemToDraw.image;
-  print("tampX: " +tampX+" tampY: "+tampY+"imag: " + imag);
+  //print("tampX: " +tampX+" tampY: "+tampY+"imag: " + imag);
 
   if(itemToDraw.image != null && itemToDraw.image != "NO"){
     image(itemToDraw.image, tampX, tampY, tilesize, tilesize);
