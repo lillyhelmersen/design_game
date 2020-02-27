@@ -76,6 +76,7 @@ var islandMatrix = [
 ];
 var cooMaxX = islandMatrix[0].length;
 var cooMaxY = islandMatrix.length;
+var waterInview = [];
 
 //Cordinat in array
 var point = {
@@ -116,12 +117,18 @@ var player = {
     y: 8,
   },
   placeCanvas: {
-    x: wi/2,
-    y: hi/2,
+    x: wi-100,
+    y: hi-100,
   },
   inventory: [getDiamond()],//List of items payer has
   isClowsToItem: false,
   clowsestItem: null,
+  noGo: {
+    down: false,
+    up: false,
+    right: false,
+    left: false,
+  },
 };
 
 console.log(player.inventory)
@@ -184,13 +191,27 @@ function drawPlayer(){//Draws the player in the view
   isNextMap(xpos,ypos);//To si if plyer is at the edgj
 
 //Movment of player
-  var dx = targetX -xpos;
+var dy = targetY - ypos;
+var dx = targetX -xpos;
+//hitWater();
+//If trys to move wrong way
+  if(player.noGo.down && dy > 0){
+    dy = 0;
+  }
+  if(player.noGo.up && dy < 0){
+    dy = 0;
+  }
+  if(player.noGo.right && dx > 0){
+    dx = 0;
+  }
+  if(player.noGo.left && dx < 0){
+    dx = 0;
+  }
+if (abs(dy) > 1) {
+  ypos = ypos + dy * easing;
+}
   if (abs(dx) > 1) {
     xpos = xpos + dx * easing;
-  }
-  var dy = targetY - ypos;
-  if (abs(dy) > 1) {
-    ypos = ypos + dy * easing;
   }
 }
 function drawView(){//Draws tiles on the canwas and asigns them cordinats
@@ -200,6 +221,7 @@ function drawView(){//Draws tiles on the canwas and asigns them cordinats
   var viewChuncCoo = mapDrawCoo;
   var drawXat = 0;
   var drawYat = 0;//tilesize
+  waterInview = [];
 
   for(i = viewChuncCoo.y; i < viewChuncCoo.y+viewSize; i++){
     drawXat = 0;
@@ -213,6 +235,7 @@ function drawView(){//Draws tiles on the canwas and asigns them cordinats
       } else if (island[i][j].id == 0){
         drawTile(0,drawXat,drawYat);
         island[i][j].placeCanvas = {x:drawXat,y:drawYat};
+        waterInview.push(island[i][j]);
       }
       drawXat += tilesize;
     }
@@ -283,6 +306,46 @@ function pickUpItem(){
     addItemToInventory(pickItem);
     deleteItem(pickItem);
   }
+}
+function hitWater(){
+  player.noGo.down = false;
+  player.noGo.up = false;
+  player.noGo.left = false;
+  player.noGo.right = false;
+
+  var px = player.placeCanvas.x - tilesize/2+1;
+  var py = player.placeCanvas.y- tilesize/2+1;
+  for (i = 0; i < waterInview.length; i++){
+    var wx = waterInview[i].placeCanvas.x;
+    var wy = waterInview[i].placeCanvas.y;
+    hit = collideRectRect(px, py, tilesize, tilesize, wx, wy, tilesize, tilesize);
+    if(hit){
+      //print("I hit water down");
+      //player related to water
+      if(px > wx){
+        player.noGo.left = true;
+      } else {
+      }
+      /*if(px < wx){player.noGo.right = true;} else {
+        if(px > wx){player.noGo.left = true;}
+        if(py > wy){player.noGo.up = true;}
+        if(py < wy){player.noGo.down = true;}
+      }
+      if(py > wy){player.noGo.up = true;} else {
+        if(px > wx){player.noGo.left = true;}
+        if(px < wx){player.noGo.right = true;}
+        if(py < wy){player.noGo.down = true;}
+      }
+      if(py < wy){player.noGo.down = true;} else {
+        if(px > wx){player.noGo.left = true;}
+        if(px < wx){player.noGo.right = true;}
+        if(py > wy){player.noGo.up = true;}
+      }*/
+      //player.noGo = true;
+    }
+  }
+
+
 }
 
 //Delaing with items
