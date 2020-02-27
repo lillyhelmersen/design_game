@@ -8,7 +8,6 @@ hi = 700;
 var tilesize = 70;
 var viewSize = 10;
 var mapDrawCoo = {x:0,y:0,};
-var tileImgs = [];
 
 //item
 var possibleItems = [];//The posible items
@@ -135,23 +134,39 @@ var targetY;
 var speed = 100;
 var easing = 0.05;
 
-function preload() {
-  for (var i=1; i<5; i++) {
-    tileImgs[i] = loadImage("img/tile-imgs/island_0"+ i + ".jpg"); 
-  }
+let characterImg;
+let tileImgs = [];
 
+function preload() {
+  characterImg = loadImage('img/character.svg');
+  tileImg1 = loadImage("img/tile-imgs/island_0"+ 1 + ".jpg");
+  tileImg2 = loadImage("img/tile-imgs/island_0"+ 2 + ".jpg");
+
+
+  /*for (var i = 1; i < 1000; i++) {
+    console.log(tileImgs.length);
+    var tileImg = loadImage("img/tile-imgs/island_0"+ i + ".jpg");
+    append(tileImgs, tileImg);
+  } */
+
+  console.log(tileImgs);
 }
 preload();
 
 function setup() {
+  
+
   var board = createCanvas(wi, hi);
-    board.parent("board-container");
+  board.parent("board-container");
   frameRate(60);
   background(0);
   noStroke();
   island = readMatrix();
   possibleItems = returnPosibelItems();
   itemOnbord = makeItemsForMap();
+
+  
+
 /*Test for drawing item take away when items are added
   itemOnbord.push({
     id: 0,
@@ -173,6 +188,22 @@ function draw() {//Calls everything that needs to be drawn
   drawPlayer();
   playerClowsToItem();
   drawItemPickupSymbol();
+
+  image(characterImg, 0, 0);
+  image(tileImg1, 0, 0, 70, 70);
+  image(tileImg2, 70, 0, 70, 70);
+
+  var k = 0;
+  /*for (i = 0; i < island.length; i++){
+
+    /* for (j = 0; j < island[i].length; j++){
+        image(tileImgs[k], i, j, 70, 70);
+        
+      }
+    }  
+} */
+  
+  
 }
 
 function drawPlayer(){//Draws the player in the view
@@ -672,35 +703,3 @@ function keyTyped(){
 //   }
 // }
 
-
-/* function itemSpawn(){
-  let allItems = [];
-  console.log("ilansd length: " + island.length);
-  for (i = 0; i < island.length; i++){
-      for (j = 0; j < island[i].length; j++){
-
-        console.log(allItems);
-
-          if (island[i][j].id == 1) {
-
-              // Pick random item from list
-              let spawnedItem = random(possibleItems);
-
-              // Clone new object
-              spawnedItem = Object.assign({}, spawnedItem);
-
-              // Assign spawned item's new point
-              spawnedItem.itemPoint = {x: i, y: j};
-
-              // Creates new array
-              append(allItems, spawnedItem);
-              console.log(allItems);
-
-          } else {
-            break;
-          }
-        }
-      }
-  } */
-
-//itemSpawn();
