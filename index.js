@@ -60,6 +60,7 @@ var islandMatrix = [
 var cooMaxX = islandMatrix[0].length;
 var cooMaxY = islandMatrix.length;
 var waterInview = [];
+var islandImages;
 
 //Cordinat in array
 var point = {
@@ -86,7 +87,7 @@ var tile = {
   id: 0,
   tileType: "NO",
   image: "NO",
-  coordinate: point,
+  cord: point,
   placeCanvas: place,
   //tileItem: item,
   //eddg: false,
@@ -138,21 +139,21 @@ let characterImg;
 let tileImgs = [];
 
 function preload() {
+  print("pre lode");
   characterImg = loadImage('img/character.svg');
-  
+
+  //lode images
   for (var i = 1; i < 20; i++) {
-    console.log(tileImgs.length);
+    //console.log(tileImgs.length);
     var tileImgTemp = loadImage("img/tile-imgs/island_"+ i + ".jpg");
     append(tileImgs, tileImgTemp);
   }
 
-  console.log(tileImgs);
+  //console.log(tileImgs);
+
 }
-preload();
-
-function setup() {
-  
-
+//preload();
+function setup() {//
   var board = createCanvas(wi, hi);
   board.parent("board-container");
   frameRate(60);
@@ -161,10 +162,8 @@ function setup() {
   island = readMatrix();
   possibleItems = returnPosibelItems();
   itemOnbord = makeItemsForMap();
-
-  
-
-/*Test for drawing item take away when items are added
+  placeImages();
+  /*Test for drawing item take away when items are added
   itemOnbord.push({
     id: 0,
     name: "NO",
@@ -175,8 +174,6 @@ function setup() {
   });//Test end*/
   drawView();
   itemInVeiw();
-
-
 }
 function draw() {//Calls everything that needs to be drawn
   isKeyDown();
@@ -186,18 +183,18 @@ function draw() {//Calls everything that needs to be drawn
   playerClowsToItem();
   drawItemPickupSymbol();
 
- 
+
   /*image(tileImg1, 0, 0, 70, 70);
   image(tileImg2, 70, 0, 70, 70); */
 
 
-  for (var k = 1; k < 20; k++) {
+  /*for (var k = 1; k < 20; k++) {
     for (i = 0; i < island.length; i++){
       for (j = 0; j < island[i].length; j++){
           image(tileImgs[k], i*70, 0, 70, 70);
       }
   }
-}
+}*/
 }
 
 function drawPlayer(){//Draws the player in the view
@@ -206,7 +203,7 @@ function drawPlayer(){//Draws the player in the view
   fill('#A42B2A');
   //ellipseMode(CENTER);
   //ellipse(xpos, ypos, 25, 25);
-  image (characterImg, xpos, ypos)
+  image(characterImg, xpos, ypos);
   player.placeCanvas.x = xpos;
   player.placeCanvas.y = ypos;
 
@@ -250,12 +247,12 @@ function drawView(){//Draws tiles on the canwas and asigns them cordinats
     for (j = viewChuncCoo.x; j < viewChuncCoo.x+viewSize; j++){
       // console.log("x: " + i + " y: " + j);
       if(i < 0 || j < 0 || i > cooMaxX || j > cooMaxY){
-        drawTile(0,drawXat,drawYat);
+        drawTile(water,drawXat,drawYat);
       } else if (island[i][j].id == 1){
-        drawTile(1,drawXat,drawYat);
+        drawTile(island[i][j],drawXat,drawYat);
         island[i][j].placeCanvas = {x:drawXat,y:drawYat};
       } else if (island[i][j].id == 0){
-        drawTile(0,drawXat,drawYat);
+        drawTile(island[i][j],drawXat,drawYat);
         island[i][j].placeCanvas = {x:drawXat,y:drawYat};
         waterInview.push(island[i][j]);
       }
@@ -275,24 +272,33 @@ function drawItems(){//Draws the item and asigns it a place that is in the view
     drawItem(itemOnView[i]);
   }
 }
-function drawTile(id, x, y){//Draws a tile
+function drawTile(tempTile, x, y){//Draws a tile
   //console.log("Draw tile id: " + id + " at x: " +x + " y: " +y);
-  switch(id){
-    case 0:
-    fill('#048ABF');
-    break;
-  case 1:
-    fill('#84D991');
-    break;
-  default:
-    // code block
-    console.log("There was aonce a blog but no more in draw tile");
+  print("temp tile: " + tempTile);
+  id = tempTile.id;
+  cooX = tempTile.cord.x;
+  cooY = tempTile.cord.y;
+
+  if(islandImages[cooX][cooY] != null){
+    image(islandImages[cooX][cooY], x, y, tilesize, tilesize);
+  }else{
+    switch(id){
+      case 0:
+      fill('#048ABF');
+      break;
+      case 1:
+      fill('#84D991');
+      break;
+      default:
+      // code block
+      console.log("There was aonce a blog but no more in draw tile");
+    }
+    square(x, y, tilesize);
   }
   // console.log(image(tileImgs[i], x, y, 70, 70) + "testinggg");
   // for (var i=0; i<5; i++) {
   // image(tileImgs[i], x, y, 70, 70);
   // }
-  square(x, y, tilesize);
 }
 function drawItem(itemToDraw){//Draws the items image
   fill('#BA7035');
@@ -542,6 +548,24 @@ function returnPosibelItems() {
 };
 
 //veiw shidft \
+function placeImages(){
+  islandImages = []
+  for(i = 0; i < island[0].length; i++){
+    islandImages[i] = [];
+  }
+  //tileImgs
+  var count = 0;
+  for(i = 0; i < island.length; i++){
+    for (j = 0; j < island[0].length; j++){
+      print("Image: " + tileImgs[count] + " in i: " + i + " j: " + j);
+      islandImages[i][j] = tileImgs[count];
+      if(count == 18){
+        return;
+      }
+      count++;
+    }
+  }
+}
 function isNextMap(x,y){//When plye hits the side change paramiters for view
   var xPlus = mapDrawCoo.x+viewSize;
   var xMinus = mapDrawCoo.x-viewSize;
@@ -697,4 +721,3 @@ function keyTyped(){
 //     targetX = xpos + speed;
 //   }
 // }
-
