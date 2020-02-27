@@ -139,14 +139,11 @@ let tileImgs = [];
 
 function preload() {
   characterImg = loadImage('img/character.svg');
-  tileImg1 = loadImage("img/tile-imgs/island_0"+ 1 + ".jpg");
-  tileImg2 = loadImage("img/tile-imgs/island_0"+ 2 + ".jpg");
-
-
-  for (var i = 1; i < 10; i++) {
+  
+  for (var i = 1; i < 20; i++) {
     console.log(tileImgs.length);
-    var tileImg = loadImage("img/tile-imgs/island_0"+ i + ".jpg");
-    append(tileImgs, tileImg);
+    var tileImgTemp = loadImage("img/tile-imgs/island_"+ i + ".jpg");
+    append(tileImgs, tileImgTemp);
   }
 
   console.log(tileImgs);
@@ -189,20 +186,18 @@ function draw() {//Calls everything that needs to be drawn
   playerClowsToItem();
   drawItemPickupSymbol();
 
-  /*image(characterImg, 0, 0);
-  image(tileImg1, 0, 0, 70, 70);
+ 
+  /*image(tileImg1, 0, 0, 70, 70);
   image(tileImg2, 70, 0, 70, 70); */
 
 
-  /*for (var k = 1; k < 50; k++) {
+  for (var k = 1; k < 20; k++) {
     for (i = 0; i < island.length; i++){
-      //for (j = 0; j < island[i].length; j++){
+      for (j = 0; j < island[i].length; j++){
           image(tileImgs[k], i*70, 0, 70, 70);
-       // }
       }
-  } 
-  */
-  
+  }
+}
 }
 
 function drawPlayer(){//Draws the player in the view
@@ -211,7 +206,7 @@ function drawPlayer(){//Draws the player in the view
   fill('#A42B2A');
   //ellipseMode(CENTER);
   //ellipse(xpos, ypos, 25, 25);
-  image (characterImg,xpos, ypos)
+  image (characterImg, xpos, ypos)
   player.placeCanvas.x = xpos;
   player.placeCanvas.y = ypos;
 
