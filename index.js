@@ -116,6 +116,7 @@ var player = {
 };
 
 /*console.log(player.inventory)
+
 console.log(player.inventory[0].image)
 var inventoryItem = document.createElement("img");
 inventoryItem.setAttribute("src", player.inventory[0].image);
@@ -139,11 +140,11 @@ let characterImg;
 let tileImgs = [];
 
 function preload() {
-  print("pre lode");
+
   characterImg = loadImage('img/character.svg');
 
-  //lode images
-  for (var i = 1; i < 20; i++) {
+  //lode images //2000 imag usaly
+  for (var i = 1; i < 0; i++) {
     //console.log(tileImgs.length);
     var tileImgTemp = loadImage("img/tile-imgs/island_"+ i + ".jpg");
     append(tileImgs, tileImgTemp);
@@ -152,7 +153,6 @@ function preload() {
   //console.log(tileImgs);
 
 }
-//preload();
 function setup() {//
   var board = createCanvas(wi, hi);
   board.parent("board-container");
@@ -260,11 +260,6 @@ function drawView(){//Draws tiles on the canwas and asigns them cordinats
     }
     drawYat += tilesize;
   }
-  /*  player at 7,7
-  draw x-6 to x+6
-  draw y-6 to y+6
-  iff null draw water
-  */
 }
 function drawItems(){//Draws the item and asigns it a place that is in the view
   //print("in drawItems: itemOnView.length: " + itemOnView.length);
@@ -274,7 +269,7 @@ function drawItems(){//Draws the item and asigns it a place that is in the view
 }
 function drawTile(tempTile, x, y){//Draws a tile
   //console.log("Draw tile id: " + id + " at x: " +x + " y: " +y);
-  print("temp tile: " + tempTile);
+  //print("temp tile: " + tempTile);
   id = tempTile.id;
   cooX = tempTile.cord.x;
   cooY = tempTile.cord.y;
@@ -339,6 +334,8 @@ function pickUpItem(){
     print("pick up item s'il vous plais")
     addItemToInventory(pickItem);
     deleteItem(pickItem);
+    console.log( player.inventory);
+    inventoryCreate();
   }
 }
 function hitWater(){
@@ -557,11 +554,9 @@ function placeImages(){
   var count = 0;
   for(i = 0; i < island.length; i++){
     for (j = 0; j < island[0].length; j++){
-      print("Image: " + tileImgs[count] + " in i: " + i + " j: " + j);
+    //  print("Image: " + tileImgs[count] + " in i: " + i + " j: " + j);
       islandImages[i][j] = tileImgs[count];
-      if(count == 18){
-        return;
-      }
+
       count++;
     }
   }
@@ -704,6 +699,15 @@ function keyTyped(){
   if(key === ' '){
     pickUpItem();
   }
+}
+function inventoryCreate() {
+    //loop through player inventory to see if items exist
+  for (i = 0; i < player.inventory.length; i++){
+    var inventoryItem = document.createElement("img");
+    inventoryItem.setAttribute("src", player.inventory[i].image);
+    document.getElementById("item-box").appendChild(inventoryItem);
+  }
+
 }
 
 // function keyPressed(){

@@ -24,7 +24,7 @@ div#inventory-container {
 }
 div#inventory-container div {
 	background-color: #e6e8f1;
-	padding: 10px 20px; 
+	padding: 10px 20px;
 	display: flex;
 }
 div#inventory-container div object{
@@ -44,6 +44,7 @@ div#items-list {
 	justify-content: center;
 	flex-direction: column;
 }
+.item-box{
+	display: flex;
 
-
-
+} 
