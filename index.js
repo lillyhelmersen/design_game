@@ -142,6 +142,16 @@ let tileImgs = [];
 function preload() {
 
   characterImg = loadImage('img/character.svg');
+  appleImg = loadImage('img/apple.svg');
+  brickImg = loadImage('img/brick.svg');
+  characterImg = loadImage('img/character.svg');
+  diamondImg = loadImage('img/diamond.svg');
+  firewoodImg = loadImage('img/firewood.svg');
+  flintImg = loadImage('img/flint.svg');
+  logImg = loadImage('img/log.svg');
+  pedastalImg = loadImage('img/pedastal.svg');
+  stoneImg = loadImage('img/stone.svg');
+  wheatImg = loadImage('img/wheat.svg');
 
   //lode images //2000 imag usaly
   for (var i = 1; i < 0; i++) {
@@ -490,7 +500,7 @@ function returnPosibelItems() {
     id: 0,
     name: "log",
     itemType: "NO",
-    image: "img/log.svg",
+    image: logImg,
     itemPoint: {
       x: 28,
       y: 37,
@@ -502,7 +512,7 @@ function returnPosibelItems() {
       id: 1,
       name: "firewood",
       itemType: "NO",
-      image:"img/firewood.svg",
+      image: firewoodImg,
       itemPoint: {
           x: 15,
           y: 22,
@@ -514,7 +524,7 @@ function returnPosibelItems() {
       id: 2,
       name: "flint",
       itemType: "NO",
-      image:"img/flint.svg",
+      image: flintImg,
       itemPoint: {
           x: 36,
           y: 19,
@@ -526,7 +536,7 @@ function returnPosibelItems() {
       id: 3,
       name: "stone",
       itemType: "NO",
-      image:"img/stone.svg",
+      image: stoneImg,
       itemPoint: {
           x: 14,
           y: 7,
@@ -538,7 +548,7 @@ function returnPosibelItems() {
       id: 4,
       name: "apple",
       itemType: "NO",
-      image:"img/apple.svg",
+      image: appleImg,
       itemPoint: {
           x: 15,
           y: 16,
@@ -550,7 +560,7 @@ function returnPosibelItems() {
       id: 5,
       name: "brick",
       itemType: "NO",
-      image:"img/brick.svg",
+      image: brickImg,
       itemPoint: {
           x: 14,
           y: 7,
@@ -560,9 +570,9 @@ function returnPosibelItems() {
     // Wheat
   var wheat = {
     id: 6,
-    name: "wheat",
+    name: wheatImg,
     itemType: "NO",
-    image:"img/wheat.svg",
+    image: wheatImg,
     itemPoint: {
       x: 38,
       y: 12,
@@ -574,7 +584,7 @@ function returnPosibelItems() {
     id: 7,
     name: "diamond",
     itemType: "NO",
-    image:"img/diamond.svg",
+    image: diamondImg,
     itemPoint: {
         x: 36,
         y: 5,
