@@ -2,19 +2,118 @@
 //30/50
 wi = 700;
 hi = 700;
+
 //Game
 
+// **** ITEMS *****
+// Log
+var log = {
+  id: 0,
+  name: "log",
+  itemType: "NO",
+  image: "img/log.svg",
+  itemPoint: {
+      x: 28,
+      y: 37,
+  },
+  itemPlace: {x:-1,y:-1,},
+};
+
+// Firewood
+var firewood = {
+  id: 1,
+  name: "firewood",
+  itemType: "NO",
+  image:"img/firewood.svg",
+  itemPoint: {
+      x: 15,
+      y: 22,
+  },
+  itemPlace: {x:-1,y:-1,},
+};
+
+// Flint
+var flint = {
+  id: 2,
+  name: "flint",
+  itemType: "NO",
+  image:"img/flint.svg",
+  itemPoint: {
+      x: 36,
+      y: 19,
+  },
+  itemPlace: {x:-1,y:-1,},
+};
+
+// Stone
+var stone = {
+  id: 3,
+  name: "stone",
+  itemType: "NO",
+  image:"img/stone.svg",
+  itemPoint: {
+      x: 14,
+      y: 7,
+  },
+  itemPlace: {x:-1,y:-1,},
+};
+
+// Apple
+var apple = {
+  id: 4,
+  name: "apple",
+  itemType: "NO",
+  image:"img/apple.svg",
+  itemPoint: {
+      x: 15,
+      y: 16,
+  },
+};
+
+// Brick
+var brick = {
+  id: 5,
+  name: "brick",
+  itemType: "NO",
+  image:"img/brick.svg",
+  itemPoint: {
+      x: 14,
+      y: 7,
+  },
+  itemPlace: {x:-1,y:-1,},
+};
+
+// Wheat
+var wheat = {
+  id: 6,
+  name: "wheat",
+  itemType: "NO",
+  image:"img/wheat.svg",
+  itemPoint: {
+      x: 38,
+      y: 12,
+  },
+  itemPlace: {x:-1,y:-1,},
+};
+
+// Diamond
 var diamond = {
-    id: 7,
-    name: "diamond",
-    itemType: "NO",
-    image:"img/diamond.svg",
-    itemPoint: {
-        x: 36,
-        y: 5,
-    },
-    itemPlace: {x:-1,y:-1,},
-  };
+  id: 7,
+  name: "diamond",
+  itemType: "NO",
+  image:"img/diamond.svg",
+  itemPoint: {
+      x: 36,
+      y: 5,
+  },
+  itemPlace: {x:-1,y:-1,},
+};
+
+var possibleItems = [log, firewood, flint, stone, apple, brick, wheat, diamond];
+
+function returnItems() {
+  return possibleItems;
+};
 
 
 function getDiamond() {
@@ -22,12 +121,10 @@ function getDiamond() {
 };
 
 
-var possibleItems = []; //1 of all the possible items
 var tilesize = 70;
 var viewSize = 10;
 var mapDrawCoo = {x:0,y:0,};
 //item
-var possibleItems = []; //1 of all the possible items
 var itemOnbord = []; //all the items that are placed in the world
 var itemOnView = [];
 //Game bord
@@ -161,7 +258,36 @@ function setup() {
     itemPlace: place,
   });//Test end
   drawView();
+
+  let allItems = [];
+
+  for (i = 0; i < island.length; i++){
+      for (j = 0; j < island[i].length; j++){
+
+          if (island[i][j].id == 1) {
+            if(random(100) < 10) {
+              // Pick random item from list
+              var spawnedItem = possibleItems[Math.floor(Math.random() * possibleItems.length)];
+              console.log(spawnedItem);
+             
+              // Clone new object 
+              spawnedItem = Object.assign({}, spawnedItem);
+
+              // Assign spawned item's new point
+              spawnedItem.itemPoint.x = i;
+              spawnedItem.itemPoint.y = j;
+
+              // Creates new array
+              append(allItems, spawnedItem);
+              console.log(allItems);
+            } 
+          }
+        } 
+  }
+
   itemInVeiw();
+
+  
 }
 function draw() {//Calls everything that needs to be drawn
   isKeyDown();
@@ -452,3 +578,36 @@ function keyTyped(){
 //     targetX = xpos + speed;
 //   }
 // }
+
+
+/* function itemSpawn(){
+  let allItems = [];
+  console.log("ilansd length: " + island.length);
+  for (i = 0; i < island.length; i++){
+      for (j = 0; j < island[i].length; j++){
+
+        console.log(allItems);
+
+          if (island[i][j].id == 1) {
+
+              // Pick random item from list
+              let spawnedItem = random(possibleItems);
+
+              // Clone new object 
+              spawnedItem = Object.assign({}, spawnedItem);
+
+              // Assign spawned item's new point
+              spawnedItem.itemPoint = {x: i, y: j};
+            
+              // Creates new array
+              append(allItems, spawnedItem);
+              console.log(allItems);
+
+          } else {
+            break;
+          }
+        }
+      }
+  } */
+
+//itemSpawn();
