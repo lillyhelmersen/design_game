@@ -298,7 +298,16 @@ function drawTile(tempTile, x, y){//Draws a tile
 function drawItem(itemToDraw){//Draws the items image
   fill('#BA7035');
   //print("item at x: " + itemToDraw.itemPlace.x + " y: " + itemToDraw.itemPlace.y);
-  square(itemToDraw.itemPlace.x+20, itemToDraw.itemPlace.y+20, 30);
+  var tampX = itemToDraw.itemPlace.x;
+  var tampY = itemToDraw.itemPlace.y;
+  var imag = itemToDraw.image;
+  //print("tampX: " +tampX+" tampY: "+tampY+"imag: " + imag);
+
+  square(tampX+20, tampX+20, 30);
+  /*if(itemToDraw.image != null && itemToDraw.image != "NO"){
+    image(itemToDraw.image, tampX, tampY, tilesize, tilesize);
+  } else {
+  }*/
 }
 function drawItemPickupSymbol(){
   if(player.isClowsToItem == true){
