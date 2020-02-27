@@ -133,7 +133,7 @@ var xpos = player.placeCanvas.x;
 var ypos = player.placeCanvas.y;
 var targetX;
 var targetY;
-var speed = 100;
+var speed = 3;//100;
 var easing = 0.05;
 
 let characterImg;
@@ -203,16 +203,30 @@ function drawPlayer(){//Draws the player in the view
   fill('#A42B2A');
   //ellipseMode(CENTER);
   //ellipse(xpos, ypos, 25, 25);
+
   image(characterImg, xpos, ypos);
   player.placeCanvas.x = xpos;
   player.placeCanvas.y = ypos;
 
   isNextMap(xpos,ypos);//To si if plyer is at the edgj
-
-//Movment of player
+  /*var trowBack = 5;
+  hitWater();
+  if(player.noGo.down){
+    ypos -= speed-trowBack;
+  }
+  if(player.noGo.up){
+    ypos += speed +trowBack;
+  }
+  if(player.noGo.right){
+    xpos -= speed -trowBack;
+  }
+  if(player.noGo.left){
+    xpos += speed +trowBack;
+  }*/
+/*Movment of player
 var dy = targetY - ypos;
 var dx = targetX -xpos;
-//hitWater();
+hitWater();
 //If trys to move wrong way
   if(player.noGo.down && dy > 0){
     dy = 0;
@@ -231,7 +245,7 @@ if (abs(dy) > 1) {
 }
   if (abs(dx) > 1) {
     xpos = xpos + dx * easing;
-  }
+  }*/
 }
 function drawView(){//Draws tiles on the canwas and asigns them cordinats
   //console.log("Draw viwa");
@@ -301,13 +315,13 @@ function drawItem(itemToDraw){//Draws the items image
   var tampX = itemToDraw.itemPlace.x;
   var tampY = itemToDraw.itemPlace.y;
   var imag = itemToDraw.image;
-  //print("tampX: " +tampX+" tampY: "+tampY+"imag: " + imag);
+  print("tampX: " +tampX+" tampY: "+tampY+"imag: " + imag);
 
-  square(tampX+20, tampX+20, 30);
-  /*if(itemToDraw.image != null && itemToDraw.image != "NO"){
+  if(itemToDraw.image != null && itemToDraw.image != "NO"){
     image(itemToDraw.image, tampX, tampY, tilesize, tilesize);
   } else {
-  }*/
+    square(tampX+20, tampX+20, 30);
+  }
 }
 function drawItemPickupSymbol(){
   if(player.isClowsToItem == true){
@@ -358,10 +372,29 @@ function hitWater(){
   for (i = 0; i < waterInview.length; i++){
     var wx = waterInview[i].placeCanvas.x;
     var wy = waterInview[i].placeCanvas.y;
-    hit = collideRectRect(px, py, tilesize, tilesize, wx, wy, tilesize, tilesize);
-    if(hit){
+    //hit = collideRectRect(px, px, tilesize, tilesize, wx, wy, tilesize, tilesize);
+    //if(hit){
+      //water
+      print("Hittinf wall");
+      var topLeft = {x:wx,y:wy};
+      var topRight = {x:wx + tilesize,y:wy};
+      var bottomLeft = {x:wx,y:wy+tilesize};
+      var bottomRight = {x:wx+tilesize,y:wy+tilesize};
+
+
+      var hitTop = collideLineRect(bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y, px, px, tilesize, tilesize);
+      var hitDown = collideLineRect(topLeft.x, topLeft.y, topRight.x, topRight.y, px, px, tilesize, tilesize);
+      var hitRight = collideLineRect(topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y, px, px, tilesize, tilesize);
+      var hitLeft = collideLineRect(topRight.x, topRight.y, bottomRight.x, bottomRight.y, px, px, tilesize, tilesize);
+
+      if(hitRight){player.noGo.right = true;print("hit right");}
+      if(hitLeft){player.noGo.left = true;print("hit left");}
+      if(hitTop){player.noGo.up = true;print("hit up");}
+      if(hitDown){player.noGo.down = true;print("hit down");}
+
+
       //print("I hit water down");
-      //player related to water
+      /*player related to water
       if(px > wx){
         player.noGo.left = true;
       } else {
@@ -382,7 +415,7 @@ function hitWater(){
         if(py > wy){player.noGo.up = true;}
       }*/
       //player.noGo = true;
-    }
+    //}
   }
 
 
@@ -630,16 +663,20 @@ function itemInVeiw(){//Calculets what item shuld be drawn and asign place in vi
 //KESY
 function isKeyDown() {//Cheks if a key is held
   if (keyIsDown(DOWN_ARROW)) {
-    targetY = ypos + speed;
+    //targetY = ypos + speed;
+    ypos += speed;
   }
   if (keyIsDown(UP_ARROW)){
-    targetY = ypos - speed;
+    //targetY = ypos - speed;
+    ypos -= speed;
   }
   if (keyIsDown(LEFT_ARROW)) {
-    targetX = xpos - speed;
+    //targetX = xpos - speed;
+    xpos -= speed;
   }
   if (keyIsDown(RIGHT_ARROW)) {
-    targetX = xpos + speed;
+    //targetX = xpos + speed;
+    xpos += speed;
   }
 
 
