@@ -7,7 +7,7 @@ hi = 700;
 
 var tilesize = 70;
 var viewSize = 10;
-var mapDrawCoo = {x:0,y:0,};
+var mapDrawCoo = {x:0,y:0};
 
 //item
 var possibleItems = [];//The posible items
@@ -133,7 +133,7 @@ var xpos = player.placeCanvas.x;
 var ypos = player.placeCanvas.y;
 var targetX;
 var targetY;
-var speed = 6;//100;//3
+var speed = 3;//100;//3
 var easing = 0.05;
 
 let characterImg;
@@ -182,6 +182,7 @@ function setup() {//
     itemPoint: {x:9,y:9},
     itemPlace: place,
   });//Test end*/
+  deugItems();
   drawView();
   itemInVeiw();
 }
@@ -223,7 +224,7 @@ function drawPlayer(){//Draws the player in the view
   player.placeCanvas.y = ypos;
 
   isNextMap(xpos,ypos);//To si if plyer is at the edgj
-  hitWater();
+
 
 }
 function drawView(){//Draws tiles on the canwas and asigns them cordinats
@@ -373,17 +374,25 @@ function hitWater(){
     line(topRight.x, topRight.y, bottomRight.x, bottomRight.y);
     */
 //Hits tile top
-    var hitDown = collidePointLine(px, pyBottom, topLeft.x, topLeft.y, topRight.x, topRight.y);
-    if(!hitDown){hitDown = collidePointLine(pxRight, pyBottom, topLeft.x, topLeft.y, topRight.x, topRight.y);}
+    var hitDown = false;
+    var hitTop = false;
+    var hitLeft = false;
+    var hitRight = false;
+    //j = 0;
+   for(j = 0; j < speed+1; j++){
+      //print("Im looping forever");
+      if(!hitDown){hitDown = collidePointLine(px, pyBottom+j, topLeft.x, topLeft.y, topRight.x, topRight.y);}
+      if(!hitDown){hitDown = collidePointLine(pxRight, pyBottom+j, topLeft.x, topLeft.y, topRight.x, topRight.y);}
 
-    var hitTop = collidePointLine(px, py, bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y);
-    if(!hitTop){hitTop = collidePointLine(pxRight, py, bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y);}
+      if(!hitTop){hitTop = collidePointLine(px, py-j, bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y);}
+      if(!hitTop){hitTop = collidePointLine(pxRight, py-j, bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y);}
 
-    var hitLeft = collidePointLine(px, py, topRight.x, topRight.y, bottomRight.x, bottomRight.y);
-    if(!hitLeft){hitLeft = collidePointLine(px, pyBottom, topRight.x, topRight.y, bottomRight.x, bottomRight.y);}
+      if(!hitLeft){hitLeft = collidePointLine(px-j, py, topRight.x, topRight.y, bottomRight.x, bottomRight.y);}
+      if(!hitLeft){hitLeft = collidePointLine(px-j, pyBottom, topRight.x, topRight.y, bottomRight.x, bottomRight.y);}
 
-    var hitRight = collidePointLine(pxRight, py, topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y);
-    if(!hitRight){hitRight = collidePointLine(pxRight, pyBottom, topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y);}
+      if(!hitRight){hitRight = collidePointLine(pxRight+j, py, topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y);}
+      if(!hitRight){hitRight = collidePointLine(pxRight+j, pyBottom, topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y);}
+    }
 
     if(hitTop){player.noGo.up = true;print("hit up");}
     if(hitDown){player.noGo.down = true;print("hit down");}
@@ -558,6 +567,25 @@ function returnPosibelItems() {
   return possibleItemsTemp;
 };
 
+
+function deugItems(){
+  for(i = -10; i < cooMaxX; i += 10){
+    for(j = -10; j < cooMaxY; j +=10){
+      mapDrawCoo.x += viewSize;
+      mapDrawCoo.y += viewSize;
+      drawView();
+      itemInVeiw();
+    }
+    mapDrawCoo.y = -10;
+  }
+  //var cooMaxX = islandMatrix[0].length;
+  //var cooMaxY = islandMatrix.length;
+  //mapDrawCoo.x = mapDrawCoo.x+viewSize;
+  //mapDrawCoo.y = mapDrawCoo.y+viewSize;
+
+  mapDrawCoo.x = 0;
+  mapDrawCoo.y = 0;
+}
 //veiw shidft \
 function placeImages(){
   islandImages = []
@@ -634,6 +662,7 @@ function itemInVeiw(){//Calculets what item shuld be drawn and asign place in vi
 }
 //KESY
 function isKeyDown() {//Cheks if a key is held
+  hitWater();
   if (keyIsDown(DOWN_ARROW)) {
     //targetY = ypos + speed;
     if(!player.noGo.down){
