@@ -367,8 +367,6 @@ function pickUpItem(){
     print("pick up item s'il vous plais")
     addItemToInventory(pickItem);
     deleteItem(pickItem);
-    console.log( player.inventory);
-    inventoryCreate();
   }
 }
 function hitWater(){
@@ -454,6 +452,11 @@ function deleteItem(deleteItem){//Takes away the picked up item form world
 }
 function addItemToInventory(pickItem){//Adds item to inventory
   player.inventory.push(pickItem);
+
+  var inventoryItem = document.createElement("img");
+   inventoryItem.setAttribute("src", pickItem.url);
+    document.getElementById("items-list").appendChild(inventoryItem);
+
 }
 function makeItemsForMap(){
   let allItems = [];
@@ -493,6 +496,7 @@ function makeItemsForMap(){
   //console.log(allItems);
   return allItems;
 }
+
 function returnPosibelItems() {
   // **** ITEMS *****
   // Log
@@ -501,6 +505,7 @@ function returnPosibelItems() {
     name: "log",
     itemType: "NO",
     image: logImg,
+    url:"img/log.svg",
     itemPoint: {
       x: 28,
       y: 37,
@@ -512,6 +517,7 @@ function returnPosibelItems() {
       id: 1,
       name: "firewood",
       itemType: "NO",
+      url:"img/firewood.svg",
       image: firewoodImg,
       itemPoint: {
           x: 15,
@@ -525,6 +531,7 @@ function returnPosibelItems() {
       name: "flint",
       itemType: "NO",
       image: flintImg,
+      url:"img/flint.svg",
       itemPoint: {
           x: 36,
           y: 19,
@@ -536,6 +543,7 @@ function returnPosibelItems() {
       id: 3,
       name: "stone",
       itemType: "NO",
+      url:"img/stone.svg",
       image: stoneImg,
       itemPoint: {
           x: 14,
@@ -549,6 +557,7 @@ function returnPosibelItems() {
       name: "apple",
       itemType: "NO",
       image: appleImg,
+      url:"img/apple.svg",
       itemPoint: {
           x: 15,
           y: 16,
@@ -561,6 +570,7 @@ function returnPosibelItems() {
       name: "brick",
       itemType: "NO",
       image: brickImg,
+      url:"img/brick.svg",
       itemPoint: {
           x: 14,
           y: 7,
@@ -573,6 +583,7 @@ function returnPosibelItems() {
     name: wheatImg,
     itemType: "NO",
     image: wheatImg,
+    url:"img/wheat.svg",
     itemPoint: {
       x: 38,
       y: 12,
@@ -585,6 +596,7 @@ function returnPosibelItems() {
     name: "diamond",
     itemType: "NO",
     image: diamondImg,
+    url:"img/diamond.svg",
     itemPoint: {
         x: 36,
         y: 5,
@@ -756,15 +768,21 @@ function keyTyped(){
     pickUpItem();
   }
 }
-function inventoryCreate() {
+// function inventoryCreate() {
     //loop through player inventory to see if items exist
-  for (i = 0; i < player.inventory.length; i++){
-    var inventoryItem = document.createElement("img");
-    inventoryItem.setAttribute("src", player.inventory[i].image);
-    document.getElementById("item-box").appendChild(inventoryItem);
-  }
+  // for (i = 0; i < player.inventory.length; i++){
+    // var inventoryItem = document.createElement("img");
+    // inventoryItem.id = 'abc-' + i;
 
-}
+    // if(inventoryItem.id != null) {       
+      
+      // inventoryItem.setAttribute("src", player.inventory[i].url);
+      // document.getElementById("items-list").appendChild(inventoryItem);
+    // }
+  // }
+
+// }
+// if (myElem === null) alert('does not exist!');
 
 // function keyPressed(){
 //   drawView();
