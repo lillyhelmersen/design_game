@@ -133,7 +133,7 @@ var xpos = player.placeCanvas.x;
 var ypos = player.placeCanvas.y;
 var targetX;
 var targetY;
-var speed = 3;//100;
+var speed = 6;//100;//3
 var easing = 0.05;
 
 let characterImg;
@@ -144,7 +144,6 @@ function preload() {
   characterImg = loadImage('img/character.svg');
   appleImg = loadImage('img/apple.svg');
   brickImg = loadImage('img/brick.svg');
-  characterImg = loadImage('img/character.svg');
   diamondImg = loadImage('img/diamond.svg');
   firewoodImg = loadImage('img/firewood.svg');
   flintImg = loadImage('img/flint.svg');
@@ -168,6 +167,7 @@ function setup() {//
   board.parent("board-container");
   frameRate(60);
   background(0);
+  collideDebug(true);
   noStroke();
   island = readMatrix();
   possibleItems = returnPosibelItems();
@@ -209,53 +209,22 @@ function draw() {//Calls everything that needs to be drawn
 
 function drawPlayer(){//Draws the player in the view
 
+  /*//Elips
   noStroke();
   fill('#A42B2A');
   //ellipseMode(CENTER);
   //ellipse(xpos, ypos, 25, 25);
-
-  image(characterImg, xpos, ypos);
+  */
+  image(characterImg, xpos, ypos,tilesize,tilesize);
+  noFill();
+  stroke(0);
+  rect(xpos, ypos,tilesize,tilesize);
   player.placeCanvas.x = xpos;
   player.placeCanvas.y = ypos;
 
   isNextMap(xpos,ypos);//To si if plyer is at the edgj
-  /*var trowBack = 5;
   hitWater();
-  if(player.noGo.down){
-    ypos -= speed-trowBack;
-  }
-  if(player.noGo.up){
-    ypos += speed +trowBack;
-  }
-  if(player.noGo.right){
-    xpos -= speed -trowBack;
-  }
-  if(player.noGo.left){
-    xpos += speed +trowBack;
-  }*/
-/*Movment of player
-var dy = targetY - ypos;
-var dx = targetX -xpos;
-hitWater();
-//If trys to move wrong way
-  if(player.noGo.down && dy > 0){
-    dy = 0;
-  }
-  if(player.noGo.up && dy < 0){
-    dy = 0;
-  }
-  if(player.noGo.right && dx > 0){
-    dx = 0;
-  }
-  if(player.noGo.left && dx < 0){
-    dx = 0;
-  }
-if (abs(dy) > 1) {
-  ypos = ypos + dy * easing;
-}
-  if (abs(dx) > 1) {
-    xpos = xpos + dx * easing;
-  }*/
+
 }
 function drawView(){//Draws tiles on the canwas and asigns them cordinats
   //console.log("Draw viwa");
@@ -301,6 +270,7 @@ function drawTile(tempTile, x, y){//Draws a tile
   if(islandImages[cooX][cooY] != null){
     image(islandImages[cooX][cooY], x, y, tilesize, tilesize);
   }else{
+    stroke(0);
     switch(id){
       case 0:
       fill('#048ABF');
@@ -350,8 +320,8 @@ function playerClowsToItem(){
 
   for (i = 0; i < itemOnView.length; i++){
 
-    var itemX = itemOnView[i].itemPlace.x + tilesize/2;
-    var itemY = itemOnView[i].itemPlace.y+ tilesize/2;
+    var itemX = itemOnView[i].itemPlace.x;// + tilesize/2;
+    var itemY = itemOnView[i].itemPlace.y;//+ tilesize/2;
     var distans = dist(px,py,itemX,itemY);//Givs distans between
 
     if (distans < tilesize/2){
@@ -374,59 +344,51 @@ function hitWater(){
   player.noGo.up = false;
   player.noGo.left = false;
   player.noGo.right = false;
+  //waterInview[]
+  //if player hit wal no more move speed = 0
+  var srink = 0;
+  var px = player.placeCanvas.x+0.1;
+  var py = player.placeCanvas.y+0.1;
+  var pxRight = px + tilesize-0.1;
+  var pyBottom = py + tilesize-0.1;
 
-  var px = player.placeCanvas.x - tilesize/2+1;
-  var py = player.placeCanvas.y- tilesize/2+1;
   for (i = 0; i < waterInview.length; i++){
     var wx = waterInview[i].placeCanvas.x;
     var wy = waterInview[i].placeCanvas.y;
-    //hit = collideRectRect(px, px, tilesize, tilesize, wx, wy, tilesize, tilesize);
-    //if(hit){
-      //water
-      print("Hittinf wall");
-      var topLeft = {x:wx,y:wy};
-      var topRight = {x:wx + tilesize,y:wy};
-      var bottomLeft = {x:wx,y:wy+tilesize};
-      var bottomRight = {x:wx+tilesize,y:wy+tilesize};
+    var topLeft = {x:wx+srink,y:wy+srink};
+    var topRight = {x:wx + tilesize-srink,y:wy+srink};
+    var bottomLeft = {x:wx+srink,y:wy+tilesize-srink};
+    var bottomRight = {x:wx+tilesize-srink,y:wy+tilesize-srink};
+    /*lines
+    stroke('red');
+    strokeWeight(4);
+    line(topLeft.x,topLeft.y,topRight.x,topRight.y);
+    stroke('green');
+    line(bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y);
+    stroke('yellow');
+    line(topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y);
+    stroke('#fae');
+    line(topRight.x, topRight.y, bottomRight.x, bottomRight.y);
+    */
+//Hits tile top
+    var hitDown = collidePointLine(px, pyBottom, topLeft.x, topLeft.y, topRight.x, topRight.y);
+    if(!hitDown){hitDown = collidePointLine(pxRight, pyBottom, topLeft.x, topLeft.y, topRight.x, topRight.y);}
 
+    var hitTop = collidePointLine(px, py, bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y);
+    if(!hitTop){hitTop = collidePointLine(pxRight, py, bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y);}
 
-      var hitTop = collideLineRect(bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y, px, px, tilesize, tilesize);
-      var hitDown = collideLineRect(topLeft.x, topLeft.y, topRight.x, topRight.y, px, px, tilesize, tilesize);
-      var hitRight = collideLineRect(topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y, px, px, tilesize, tilesize);
-      var hitLeft = collideLineRect(topRight.x, topRight.y, bottomRight.x, bottomRight.y, px, px, tilesize, tilesize);
+    var hitLeft = collidePointLine(px, py, topRight.x, topRight.y, bottomRight.x, bottomRight.y);
+    if(!hitLeft){hitLeft = collidePointLine(px, pyBottom, topRight.x, topRight.y, bottomRight.x, bottomRight.y);}
 
-      if(hitRight){player.noGo.right = true;print("hit right");}
-      if(hitLeft){player.noGo.left = true;print("hit left");}
-      if(hitTop){player.noGo.up = true;print("hit up");}
-      if(hitDown){player.noGo.down = true;print("hit down");}
+    var hitRight = collidePointLine(pxRight, py, topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y);
+    if(!hitRight){hitRight = collidePointLine(pxRight, pyBottom, topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y);}
 
+    if(hitTop){player.noGo.up = true;print("hit up");}
+    if(hitDown){player.noGo.down = true;print("hit down");}
+    if(hitRight){player.noGo.right = true;print("hit right");}
+    if(hitLeft){player.noGo.left = true;print("hit left");}
 
-      //print("I hit water down");
-      /*player related to water
-      if(px > wx){
-        player.noGo.left = true;
-      } else {
-      }
-      /*if(px < wx){player.noGo.right = true;} else {
-        if(px > wx){player.noGo.left = true;}
-        if(py > wy){player.noGo.up = true;}
-        if(py < wy){player.noGo.down = true;}
-      }
-      if(py > wy){player.noGo.up = true;} else {
-        if(px > wx){player.noGo.left = true;}
-        if(px < wx){player.noGo.right = true;}
-        if(py < wy){player.noGo.down = true;}
-      }
-      if(py < wy){player.noGo.down = true;} else {
-        if(px > wx){player.noGo.left = true;}
-        if(px < wx){player.noGo.right = true;}
-        if(py > wy){player.noGo.up = true;}
-      }*/
-      //player.noGo = true;
-    //}
   }
-
-
 }
 
 //Delaing with items
@@ -686,22 +648,28 @@ function itemInVeiw(){//Calculets what item shuld be drawn and asign place in vi
 function isKeyDown() {//Cheks if a key is held
   if (keyIsDown(DOWN_ARROW)) {
     //targetY = ypos + speed;
-    ypos += speed;
+    if(!player.noGo.down){
+      ypos += speed;
+    }
   }
   if (keyIsDown(UP_ARROW)){
     //targetY = ypos - speed;
-    ypos -= speed;
+    if(!player.noGo.up){
+      ypos -= speed;
+    }
   }
   if (keyIsDown(LEFT_ARROW)) {
     //targetX = xpos - speed;
-    xpos -= speed;
+    if(!player.noGo.left){
+      xpos -= speed;
+    }
   }
   if (keyIsDown(RIGHT_ARROW)) {
     //targetX = xpos + speed;
-    xpos += speed;
+    if(!player.noGo.right){
+      xpos += speed;
+    }
   }
-
-
 }
 //Read island model//
 function readMatrix(){//Reds islandMatrix and adds tiles to island[]
