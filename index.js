@@ -133,7 +133,7 @@ var xpos = player.placeCanvas.x;
 var ypos = player.placeCanvas.y;
 var targetX;
 var targetY;
-var speed = 3;//100;//3
+var speed = 6;//100;//3
 var easing = 0.05;
 
 let characterImg;
@@ -349,10 +349,10 @@ function hitWater(){
   //waterInview[]
   //if player hit wal no more move speed = 0
   var srink = 0;
-  var px = player.placeCanvas.x;
-  var py = player.placeCanvas.y;
-  var pxRight = px + tilesize;
-  var pyBottom = py + tilesize;
+  var px = player.placeCanvas.x+0.1;
+  var py = player.placeCanvas.y+0.1;
+  var pxRight = px + tilesize-0.1;
+  var pyBottom = py + tilesize-0.1;
 
   for (i = 0; i < waterInview.length; i++){
     var wx = waterInview[i].placeCanvas.x;
@@ -361,12 +361,30 @@ function hitWater(){
     var topRight = {x:wx + tilesize-srink,y:wy+srink};
     var bottomLeft = {x:wx+srink,y:wy+tilesize-srink};
     var bottomRight = {x:wx+tilesize-srink,y:wy+tilesize-srink};
-
+    /*lines
+    stroke('red');
+    strokeWeight(4);
+    line(topLeft.x,topLeft.y,topRight.x,topRight.y);
+    stroke('green');
+    line(bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y);
+    stroke('yellow');
+    line(topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y);
+    stroke('#fae');
+    line(topRight.x, topRight.y, bottomRight.x, bottomRight.y);
+    */
 //Hits tile top
-    var hitTop = collidePointLine(px, pyBottom, topLeft.x, topLeft.y, topRight.x, topRight.y);
-    var hitDown = collidePointLine(px, py, bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y);
+    var hitDown = collidePointLine(px, pyBottom, topLeft.x, topLeft.y, topRight.x, topRight.y);
+    if(!hitDown){hitDown = collidePointLine(pxRight, pyBottom, topLeft.x, topLeft.y, topRight.x, topRight.y);}
+
+    var hitTop = collidePointLine(px, py, bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y);
+    if(!hitTop){hitTop = collidePointLine(pxRight, py, bottomLeft.x, bottomLeft.y, bottomRight.x, bottomRight.y);}
+
     var hitLeft = collidePointLine(px, py, topRight.x, topRight.y, bottomRight.x, bottomRight.y);
-    var hitRight = collidePointLine(px, py, topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y);
+    if(!hitLeft){hitLeft = collidePointLine(px, pyBottom, topRight.x, topRight.y, bottomRight.x, bottomRight.y);}
+
+    var hitRight = collidePointLine(pxRight, py, topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y);
+    if(!hitRight){hitRight = collidePointLine(pxRight, pyBottom, topLeft.x, topLeft.y, bottomLeft.x, bottomLeft.y);}
+
     if(hitTop){player.noGo.up = true;print("hit up");}
     if(hitDown){player.noGo.down = true;print("hit down");}
     if(hitRight){player.noGo.right = true;print("hit right");}
@@ -618,13 +636,13 @@ function itemInVeiw(){//Calculets what item shuld be drawn and asign place in vi
 function isKeyDown() {//Cheks if a key is held
   if (keyIsDown(DOWN_ARROW)) {
     //targetY = ypos + speed;
-    if(!player.noGo.up){
+    if(!player.noGo.down){
       ypos += speed;
     }
   }
   if (keyIsDown(UP_ARROW)){
     //targetY = ypos - speed;
-    if(!player.noGo.down){
+    if(!player.noGo.up){
       ypos -= speed;
     }
   }
