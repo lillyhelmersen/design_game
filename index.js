@@ -127,13 +127,17 @@ function getDiamond() {
 
   return possibleItems[possibleItems.length];
 };*/
+//-------Static items-----------------
+var pedastal;
+//FirePlace
+var firePlace;
 
 //Elipse
 var xpos = player.placeCanvas.x;
 var ypos = player.placeCanvas.y;
 var targetX;
 var targetY;
-var speed = 3;//100;//3
+var speed = 6;//100;//3
 var easing = 0.05;
 
 let characterImg;
@@ -151,6 +155,9 @@ function preload() {
   pedastalImg = loadImage('img/pedastal.svg');
   stoneImg = loadImage('img/stone.svg');
   wheatImg = loadImage('img/wheat.svg');
+  firePlaceImg = loadImage('img/fireplace.svg');
+
+  firePlaceImg
 
   //lode images //2000 imag usaly
   for (var i = 1; i < 0; i++) {
@@ -167,12 +174,13 @@ function setup() {//
   board.parent("board-container");
   frameRate(60);
   background(0);
-  collideDebug(true);
+  //collideDebug(true);
   noStroke();
   island = readMatrix();
   possibleItems = returnPosibelItems();
   itemOnbord = makeItemsForMap();
   placeImages();
+  staticItem();
   /*Test for drawing item take away when items are added
   itemOnbord.push({
     id: 0,
@@ -193,7 +201,7 @@ function draw() {//Calls everything that needs to be drawn
   drawPlayer();
   playerClowsToItem();
   drawItemPickupSymbol();
-
+  //image(pedastalImg, 200,200,tilesize,tilesize);
 
   /*image(tileImg1, 0, 0, 70, 70);
   image(tileImg2, 70, 0, 70, 70); */
@@ -218,7 +226,7 @@ function drawPlayer(){//Draws the player in the view
   */
   image(characterImg, xpos, ypos,tilesize,tilesize);
   noFill();
-  stroke(0);
+  //stroke(0);
   rect(xpos, ypos,tilesize,tilesize);
   player.placeCanvas.x = xpos;
   player.placeCanvas.y = ypos;
@@ -271,7 +279,7 @@ function drawTile(tempTile, x, y){//Draws a tile
   if(islandImages[cooX][cooY] != null){
     image(islandImages[cooX][cooY], x, y, tilesize, tilesize);
   }else{
-    stroke(0);
+    //stroke(0);
     switch(id){
       case 0:
       fill('#048ABF');
@@ -296,12 +304,17 @@ function drawItem(itemToDraw){//Draws the items image
   var tampX = itemToDraw.itemPlace.x;
   var tampY = itemToDraw.itemPlace.y;
   var imag = itemToDraw.image;
+  /*if(itemToDraw.name == "pedestal"){
+    print("Try to draw pedesta");
+    //image(itemToDraw.image, tampX, tampY, tilesize, tilesize);
+  }*/
   //print("tampX: " +tampX+" tampY: "+tampY+"imag: " + imag);
-
-  if(itemToDraw.image != null && itemToDraw.image != "NO"){
-    image(itemToDraw.image, tampX, tampY, tilesize, tilesize);
-  } else {
-    square(tampX+20, tampX+20, 30);
+  if(tampX != -1){
+    if(itemToDraw.image != null && itemToDraw.image != "NO"){
+      image(itemToDraw.image, tampX, tampY, tilesize, tilesize);
+    } else {
+      square(tampX+20, tampX+20, 30);
+    }
   }
 }
 function drawItemPickupSymbol(){
@@ -326,18 +339,21 @@ function playerClowsToItem(){
     var distans = dist(px,py,itemX,itemY);//Givs distans between
 
     if (distans < tilesize/2){
-      player.isClowsToItem = true;
-      player.clowsestItem = itemOnView[i];
-      //console.log("I am clos to item");
+        //print("Colse to item");
+        player.isClowsToItem = true;
+        player.clowsestItem = itemOnView[i];
+        //console.log("I am clos to item");
     }
   }
 }
 function pickUpItem(){
   if(player.isClowsToItem){
-    var pickItem = player.clowsestItem;
     print("pick up item s'il vous plais")
+    var pickItem = player.clowsestItem;
     addItemToInventory(pickItem);
     deleteItem(pickItem);
+    console.log( player.inventory);
+    inventoryCreate();
   }
 }
 function hitWater(){
@@ -423,11 +439,7 @@ function deleteItem(deleteItem){//Takes away the picked up item form world
 }
 function addItemToInventory(pickItem){//Adds item to inventory
   player.inventory.push(pickItem);
-
-  var inventoryItem = document.createElement("img");
-   inventoryItem.setAttribute("src", pickItem.url);
-    document.getElementById("items-list").appendChild(inventoryItem);
-
+  //print("inverntory: " + player.inventory);
 }
 function makeItemsForMap(){
   let allItems = [];
@@ -467,7 +479,6 @@ function makeItemsForMap(){
   //console.log(allItems);
   return allItems;
 }
-
 function returnPosibelItems() {
   // **** ITEMS *****
   // Log
@@ -476,7 +487,6 @@ function returnPosibelItems() {
     name: "log",
     itemType: "NO",
     image: logImg,
-    url:"img/log.svg",
     itemPoint: {
       x: 28,
       y: 37,
@@ -488,7 +498,6 @@ function returnPosibelItems() {
       id: 1,
       name: "firewood",
       itemType: "NO",
-      url:"img/firewood.svg",
       image: firewoodImg,
       itemPoint: {
           x: 15,
@@ -502,7 +511,6 @@ function returnPosibelItems() {
       name: "flint",
       itemType: "NO",
       image: flintImg,
-      url:"img/flint.svg",
       itemPoint: {
           x: 36,
           y: 19,
@@ -514,7 +522,6 @@ function returnPosibelItems() {
       id: 3,
       name: "stone",
       itemType: "NO",
-      url:"img/stone.svg",
       image: stoneImg,
       itemPoint: {
           x: 14,
@@ -528,7 +535,6 @@ function returnPosibelItems() {
       name: "apple",
       itemType: "NO",
       image: appleImg,
-      url:"img/apple.svg",
       itemPoint: {
           x: 15,
           y: 16,
@@ -541,7 +547,6 @@ function returnPosibelItems() {
       name: "brick",
       itemType: "NO",
       image: brickImg,
-      url:"img/brick.svg",
       itemPoint: {
           x: 14,
           y: 7,
@@ -554,7 +559,6 @@ function returnPosibelItems() {
     name: wheatImg,
     itemType: "NO",
     image: wheatImg,
-    url:"img/wheat.svg",
     itemPoint: {
       x: 38,
       y: 12,
@@ -567,7 +571,6 @@ function returnPosibelItems() {
     name: "diamond",
     itemType: "NO",
     image: diamondImg,
-    url:"img/diamond.svg",
     itemPoint: {
         x: 36,
         y: 5,
@@ -625,26 +628,25 @@ function isNextMap(x,y){//When plye hits the side change paramiters for view
     //next map right
     xpos = 0;
     mapDrawCoo.x = mapDrawCoo.x+viewSize;
-    itemInVeiw();
+    //itemInVeiw();
     //console.log("I hitt the riht\n mapDrawCoo.x: " + xPlus);
   } else if(x < 0){
     xpos = wi;
     mapDrawCoo.x = mapDrawCoo.x-viewSize;
-    itemInVeiw();
+    //itemInVeiw();
     //next map left
   } else if(y > hi){
     ypos = 0;
     mapDrawCoo.y = mapDrawCoo.y+viewSize;
-    itemInVeiw();
+    //iemInVeiw();
     //next map down
   } else if(y < 0){
     ypos = hi;
     mapDrawCoo.y = mapDrawCoo.y-viewSize;
-    itemInVeiw();
+    //itemInVeiw();
     //next map up
   }
-
-
+  itemInVeiw();
 }
 function itemInVeiw(){//Calculets what item shuld be drawn and asign place in view
   //print("function itemInVeiw()");
@@ -653,13 +655,31 @@ function itemInVeiw(){//Calculets what item shuld be drawn and asign place in vi
   for (i = 0; i < itemOnbord.length; i++){
     //print("itemOnbord[i].itemPoint.x: " + itemOnbord[i].itemPoint.x );
     //print("itemOnbord[i].itemPoint.y: " + itemOnbord[i].itemPoint.y );
+    var tempX = itemOnbord[i].itemPoint.x;
+    var tempY = itemOnbord[i].itemPoint.y;
+    var tempPlace = island[tempX][tempY].placeCanvas;
+
+    if(pedastal.itemPoint.x > mapDrawCoo.x && pedastal.itemPoint.x < mapDrawCoo.x+viewSize){
+      if(pedastal.itemPoint.y > mapDrawCoo.y && pedastal.itemPoint.y < mapDrawCoo.y+viewSize){
+        //pedastal.itemPlace.x = tempPlace.x;
+        //pedastal.itemPlace.y = tempPlace.y;
+        itemOnView.push(pedastal);
+        //print("Pedestalx:  + ");
+      }
+    }
+    if(firePlace.itemPoint.x > mapDrawCoo.x && firePlace.itemPoint.x < mapDrawCoo.x+viewSize){
+      if(firePlace.itemPoint.y > mapDrawCoo.y && firePlace.itemPoint.y < mapDrawCoo.y+viewSize){
+        //firePlace.itemPlace.x = tempPlace.x;
+        //firePlace.itemPlace.y = tempPlace.y;
+        itemOnView.push(firePlace);
+
+      }
+    }
 
     if(itemOnbord[i].itemPoint.x > mapDrawCoo.x && itemOnbord[i].itemPoint.x < mapDrawCoo.x+viewSize){
       if(itemOnbord[i].itemPoint.y > mapDrawCoo.y && itemOnbord[i].itemPoint.y < mapDrawCoo.y+viewSize){
         //Assigning place in view to item
-        var tempX = itemOnbord[i].itemPoint.x;
-        var tempY = itemOnbord[i].itemPoint.y;
-        var tempPlace = island[tempX][tempY].placeCanvas;
+        //console.log("linadn tile island[tempX][tempY]: " + island[tempX][tempY]);
         //console.log("tempPlace.x " + island[tempX][tempY].placeCanvas.x);
         itemOnbord[i].itemPlace.x = tempPlace.x;
         itemOnbord[i].itemPlace.y = tempPlace.y;
@@ -762,24 +782,41 @@ function readMatrix(){//Reds islandMatrix and adds tiles to island[]
 //Keypresed
 function keyTyped(){
   if(key === ' '){
+    //print("spawsfe");
     pickUpItem();
   }
 }
-// function inventoryCreate() {
+function inventoryCreate() {
     //loop through player inventory to see if items exist
-  // for (i = 0; i < player.inventory.length; i++){
-    // var inventoryItem = document.createElement("img");
-    // inventoryItem.id = 'abc-' + i;
+  for (i = 0; i < player.inventory.length; i++){
+    var inventoryItem = document.createElement("img");
+    inventoryItem.setAttribute("src", player.inventory[i].image);
+    document.getElementById("item-box").appendChild(inventoryItem);
+  }
 
-    // if(inventoryItem.id != null) {       
-      
-      // inventoryItem.setAttribute("src", player.inventory[i].url);
-      // document.getElementById("items-list").appendChild(inventoryItem);
-    // }
-  // }
+}
+function staticItem(){
+  pedastal = {
+    name: "pedestal",
+    image: pedastalImg,
+    itemPoint: {
+      x: 11,
+      y: 9,
+    },
+    itemPlace: {x:wi-tilesize*3,y:hi-tilesize*3,},
+  }
 
-// }
-// if (myElem === null) alert('does not exist!');
+  //FirePlace
+  firePlace = {
+    name: "fireplace",
+  image: firePlaceImg,
+  itemPoint: {
+    x: 11,
+    y: 11,
+  },
+  itemPlace: {x:wi-tilesize*5,y:hi-tilesize*5,},
+  }
+}
 
 // function keyPressed(){
 //   drawView();
