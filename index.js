@@ -160,7 +160,7 @@ function preload() {
   firePlaceImg
 
   //lode images //2000 imag usaly
-  for (var i = 1; i < 2000; i++) {
+  for (var i = 1; i < 0; i++) {
     //console.log(tileImgs.length);
     var tileImgTemp = loadImage("img/tile-imgs/island_"+ i + ".jpg");
     console.log(tileImgTemp);
@@ -354,7 +354,7 @@ function pickUpItem(){
     addItemToInventory(pickItem);
     deleteItem(pickItem);
     console.log( player.inventory);
-    inventoryCreate();
+    //inventoryCreate();
   }
 }
 function hitWater(){
@@ -443,7 +443,8 @@ function addItemToInventory(pickItem){//Adds item to inventory
 
   var inventoryItem = document.createElement("img");
   inventoryItem.setAttribute("src", pickItem.url);
-  document.getElementById("item-box").appendChild(inventoryItem);
+  //print("pickItem.url: " + pickItem.url);
+  document.getElementById("items-list").appendChild(inventoryItem);
   //print("inverntory: " + player.inventory);
 }
 function makeItemsForMap(){
@@ -481,7 +482,7 @@ function makeItemsForMap(){
           }
         }
   }
- 
+
   return allItems;
 }
 function returnPosibelItems() {
