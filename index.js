@@ -160,7 +160,7 @@ function preload() {
   firePlaceImg
 
   //lode images //2000 imag usaly
-  for (var i = 1; i < 0; i++) {
+  for (var i = 1; i < 2000; i++) {
     //console.log(tileImgs.length);
     var tileImgTemp = loadImage("img/tile-imgs/island_"+ i + ".jpg");
     console.log(tileImgTemp);
